@@ -6,23 +6,23 @@
 <br>
 
 <p align="center">
-   <a href="https://github.com/0xZeroLabs/s3n/network/members"><img src="https://img.shields.io/github/forks/0xZeroLabs/s3n?style=social"></a>
-   <img src="https://img.shields.io/github/stars/0xZeroLabs/s3n?style=social">
+   <a href="https://github.com/0xZeroLabs/the-forge/network/members"><img src="https://img.shields.io/github/forks/0xZeroLabs/s3n?style=social"></a>
+   <img src="https://img.shields.io/github/stars/0xZeroLabs/the-forge?style=social">
    <a href="https://x.com/0xZeroOrg"><img src="https://img.shields.io/twitter/follow/0xZeroLabs.svg?style=social"></a>
    <br>
-   <img src="https://img.shields.io/github/languages/count/0xZeroLabs/s3n">
-   <a href="https://github.com/0xZeroLabs/s3n/issues"><img src="https://img.shields.io/github/issues/0xZeroLabs/s3n"></a>
-   <a href="https://github.com/0xZeroLabs/s3n/pulls"><img src="https://img.shields.io/github/issues-pr-raw/0xZeroLabs/s3n"></a>
-   <a href="https://github.com/0xZeroLabs/s3n/graphs/contributors"><img src="https://img.shields.io/github/contributors-anon/0xZeroLabs/s3n"></a>
-   <img src="https://img.shields.io/github/languages/code-size/0xZeroLabs/s3n">
+   <img src="https://img.shields.io/github/languages/count/0xZeroLabs/the-forge">
+   <a href="https://github.com/0xZeroLabs/the-forge/issues"><img src="https://img.shields.io/github/issues/0xZeroLabs/s3n"></a>
+   <a href="https://github.com/0xZeroLabs/the-forge/pulls"><img src="https://img.shields.io/github/issues-pr-raw/0xZeroLabs/s3n"></a>
+   <a href="https://github.com/0xZeroLabs/the-forge/graphs/contributors"><img src="https://img.shields.io/github/contributors-anon/0xZeroLabs/s3n"></a>
+   <img src="https://img.shields.io/github/languages/code-size/0xZeroLabs/the-forge">
 <br>
   <a href="https://docs.0xzero.org"><img src="https://img.shields.io/badge/docs-%F0%9F%93%84-blue"></a>
   <a href="https://github.com/0xZeroLabs/s3n/blob/master/LICENSE"><img src="https://img.shields.io/github/license/0xZeroLabs/s3n?style"></a>
 </p>
 
-# S3N Core
+# The Forge
 
-S3N Core is an AVS built on [EigenLayer](https://eigenlayer.xyz) through the [Othentic](https://othentic.xyz) stack, designed to notarise and commit to credentials, replacing the need for data signing by issuers.
+The Forge is an AVS built on [EigenLayer](https://eigenlayer.xyz) through the [Othentic](https://othentic.xyz) stack, designed to verifiably register any IP on Story Protocol unleashing access to unlimited IP.
 
 # ⚙️ Set Up
 
