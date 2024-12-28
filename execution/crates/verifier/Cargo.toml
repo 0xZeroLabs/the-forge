@@ -1,0 +1,12 @@
+[package]
+name = "verifier"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+name = "verifier"
+path = "src/lib.rs"
+
+[dependencies]
+tlsn-core = { git = "https://github.com/tlsnotary/tlsn.git", tag = "v0.1.0-alpha.5", package = "tlsn-core" }
