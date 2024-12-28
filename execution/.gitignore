@@ -33,12 +33,3 @@ Cargo.lock
 
 # metrics
 *.csv
-
-
-tlsn
-
-fixture/**/*.key
-fixture/**/*.pub
-fixture/**/*.csr
-fixture/**/*.crt
-fixture/**/*.pem
