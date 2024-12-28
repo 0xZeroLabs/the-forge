@@ -24,6 +24,15 @@
 
 The Forge is an AVS built on [EigenLayer](https://eigenlayer.xyz) through the [Othentic](https://othentic.xyz) stack, designed to verifiably register any IP on Story Protocol unleashing access to unlimited IP.
 
+# 🎯 Grand Plan
+
+We're currently focused on achieving the following to get a working version of The Forge:
+
+- [ ] Prover with Jolt (Transcript verifier)
+- [ ] Story Protocol IP smart contracts
+- [ ] IP registration in execution registrar via Alloy
+- [ ] Attestation service ZKP verification ...
+
 # ⚙️ Set Up
 
 To set up the environment, create a `.env` file with the usual Othentic
