@@ -1,7 +1,7 @@
 <br>
 
 <p align="center">
-  <img src="./assets/s3n-social.jpg" width="300" alt="0xzero.org" />
+  <img src="./assets/medival-100.png" width="100" alt="0xzero.org" />
 </p>
 <br>
 
@@ -20,7 +20,7 @@
   <a href="https://github.com/0xZeroLabs/s3n/blob/master/LICENSE"><img src="https://img.shields.io/github/license/0xZeroLabs/s3n?style"></a>
 </p>
 
-# The Forge
+# The Forge ⚒
 
 The Forge is an AVS built on [EigenLayer](https://eigenlayer.xyz) through the [Othentic](https://othentic.xyz) stack, designed to verifiably register any IP on Story Protocol unleashing access to unlimited IP.
 
