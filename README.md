@@ -17,7 +17,7 @@
    <img src="https://img.shields.io/github/languages/code-size/0xZeroLabs/the-forge">
 <br>
   <a href="https://docs.0xzero.org"><img src="https://img.shields.io/badge/docs-%F0%9F%93%84-blue"></a>
-  <a href="https://github.com/0xZeroLabs/s3n/blob/master/LICENSE"><img src="https://img.shields.io/github/license/0xZeroLabs/s3n?style"></a>
+  <a href="https://github.com/0xZeroLabs/the-forge/blob/master/LICENSE"><img src="https://img.shields.io/github/license/0xZeroLabs/s3n?style"></a>
 </p>
 
 # The Forge ⚒
