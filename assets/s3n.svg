@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="85.582123mm"
+   height="25.139mm"
+   viewBox="0 0 85.582123 25.139"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="s3n.svg"
+   inkscape:export-filename="..\..\zero-docs-v2\logo\s3n.png"
+   inkscape:export-xdpi="727.47522"
+   inkscape:export-ydpi="727.47522"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="2.0401423"
+     inkscape:cx="112.00199"
+     inkscape:cy="85.043087"
+     inkscape:window-width="1350"
+     inkscape:window-height="1041"
+     inkscape:window-x="130"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <rect
+       x="117.33655"
+       y="185.131"
+       width="514.97711"
+       height="179.91605"
+       id="rect1" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       transform="matrix(3.2580353,0,0,3.2580353,-384.63041,-613.52968)"
+       id="text1"
+       style="font-family:'Space Grotesk';-inkscape-font-specification:'Space Grotesk';white-space:pre;shape-inside:url(#rect1);fill:#f9f9f9"><tspan
+         x="117.33594"
+         y="195.88478"
+         id="tspan3"><tspan
+           style="font-family:'Pixelify Sans';-inkscape-font-specification:'Pixelify Sans'"
+           id="tspan2">S3N=</tspan></tspan></text>
+  </g>
+</svg>
