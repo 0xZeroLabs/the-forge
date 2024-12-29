@@ -3,6 +3,10 @@ name = "sindri-script"
 version = "0.1.0"
 edition = "2021"
 
+[lib]
+name = "migration"
+path = "src/lib.rs"
+
 [dependencies]
 base64 = "0.22.1"
 dotenvy = "0.15.7"
