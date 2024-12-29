@@ -6,18 +6,18 @@
 <br>
 
 <p align="center">
-   <a href="https://github.com/0xZeroLabs/the-forge/network/members"><img src="https://img.shields.io/github/forks/0xZeroLabs/s3n?style=social"></a>
-   <img src="https://img.shields.io/github/stars/0xZeroLabs/the-forge?style=social">
-   <a href="https://x.com/0xZeroOrg"><img src="https://img.shields.io/twitter/follow/0xZeroLabs.svg?style=social"></a>
+   <a href="https://github.com/0xZeroLabs/the-forge/network/members"><img src="https://img.shields.io/github/forks/0xZeroLabs/the-forge?style=for-the-badge&color=a8c7ff&labelColor=1a1b1f"></a>
+   <img src="https://img.shields.io/github/stars/0xZeroLabs/the-forge?style=for-the-badge&logo=github&color=e6c419&labelColor=1d1b16">
+   <a href="https://x.com/0xZeroOrg"><img src="https://img.shields.io/twitter/follow/0xZeroLabs.svg?style=for-the-badge&logo=x&color=e6c419&labelColor=1d1b16"></a>
    <br>
-   <img src="https://img.shields.io/github/languages/count/0xZeroLabs/the-forge">
-   <a href="https://github.com/0xZeroLabs/the-forge/issues"><img src="https://img.shields.io/github/issues/0xZeroLabs/s3n"></a>
-   <a href="https://github.com/0xZeroLabs/the-forge/pulls"><img src="https://img.shields.io/github/issues-pr-raw/0xZeroLabs/s3n"></a>
-   <a href="https://github.com/0xZeroLabs/the-forge/graphs/contributors"><img src="https://img.shields.io/github/contributors-anon/0xZeroLabs/s3n"></a>
-   <img src="https://img.shields.io/github/languages/code-size/0xZeroLabs/the-forge">
+   <img src="https://img.shields.io/github/languages/count/0xZeroLabs/the-forge?style=for-the-badge&color=ffb4a2&labelColor=201a19">
+   <a href="https://github.com/0xZeroLabs/the-forge/issues"><img src="https://img.shields.io/github/issues/0xZeroLabs/the-forge?style=for-the-badge&color=ffb4a2&labelColor=201a19"></a>
+   <a href="https://github.com/0xZeroLabs/the-forge/pulls"><img src="https://img.shields.io/github/issues-pr-raw/0xZeroLabs/the-forge?style=for-the-badge&color=ffb4a2&labelColor=201a19"></a>
+   <a href="https://github.com/0xZeroLabs/the-forge/graphs/contributors"><img src="https://img.shields.io/github/contributors-anon/0xZeroLabs/the-forge?style=for-the-badge&color=ffb4a2&labelColor=201a19"></a>
+   <img src="https://img.shields.io/github/languages/code-size/0xZeroLabs/the-forge?style=for-the-badge&color=ffb4a2&labelColor=201a19">
 <br>
-  <a href="https://docs.0xzero.org"><img src="https://img.shields.io/badge/docs-%F0%9F%93%84-blue"></a>
-  <a href="https://github.com/0xZeroLabs/the-forge/blob/master/LICENSE"><img src="https://img.shields.io/github/license/0xZeroLabs/s3n?style"></a>
+  <a href="https://docs.0xzero.org"><img src="https://img.shields.io/badge/docs-%F0%9F%93%84-blue?style=for-the-badge&color=ffb4a2&labelColor=201a19"></a>
+  <a href="https://github.com/0xZeroLabs/the-forge/blob/master/LICENSE"><img src="https://img.shields.io/github/license/0xZeroLabs/the-forge?style=for-the-badge&color=ffb4a2&labelColor=201a19"></a>
 </p>
 
 # The Forge ⚒
