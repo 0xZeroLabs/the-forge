@@ -1,12 +1,15 @@
 use serde::{Deserialize, Serialize};
+use tlsn_core::ServerName;
 
 #[derive(Serialize, Deserialize)]
 pub struct Input {
-    pub input: [u8; 32],
-    pub num_iters: u32,
+    pub transcript: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Output {
-    pub output: [u8; 32],
+    pub server_name: String,
+    pub time: chrono::DateTime<chrono::Utc>,
+    pub sent_data: String,
+    pub received_data: String,
 }
