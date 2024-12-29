@@ -7,4 +7,13 @@ name = "execution"
 version = "0.1.0"
 edition = "2021"
 
+[workspace.dependencies]
+tlsn-core = { git = "https://github.com/tlsnotary/tlsn.git", tag = "v0.1.0-alpha.5", package = "tlsn-core" }
+elliptic-curve = {version = "0.13.5", features = ["pkcs8"]}
+p256 = { version = "0.13", features = ["pem", "ecdsa"] }
+chrono = "0.4"
+verifier = { path = "crates/verifier" }
+
 [dependencies]
+migration = { path = "crates/migration" }
+verifier = { path = "crates/verifier" }
