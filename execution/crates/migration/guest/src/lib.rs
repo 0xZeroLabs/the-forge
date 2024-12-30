@@ -3,6 +3,7 @@ pub mod utils;
 pub use utils::{Input, Output};
 
 use sha3::{Digest, Keccak256};
+use verifier::verify_proof;
 
 #[jolt::provable]
 fn migrate(pre_image: Input) -> Output {
