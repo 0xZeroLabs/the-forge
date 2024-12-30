@@ -1,0 +1,14 @@
+[package]
+name = "registrar"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[lib]
+name = "registrar"
+path = "src/lib.rs"
+
+[dependencies]
+alloy = { version = "0.9.0", features = ["full"] }
+eyre = "0.6.12"
+tokio = "1.42.0"
