@@ -6,7 +6,7 @@ import {ISPGNFT} from "@storyprotocol/periphery/interfaces/ISPGNFT.sol";
 import {RegistrationWorkflows} from "@storyprotocol/periphery/workflows/RegistrationWorkflows.sol";
 import {WorkflowStructs} from "@storyprotocol/periphery/lib/WorkflowStructs.sol";
 
-contract IPAssetRegistrar {
+contract IPARegistrar {
     IPAssetRegistry public immutable IP_ASSET_REGISTRY;
     RegistrationWorkflows public immutable REGISTRATION_WORKFLOWS;
 
