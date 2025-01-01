@@ -17,3 +17,6 @@ verifier = { path = "crates/verifier" }
 [dependencies]
 migration = { path = "crates/migration" }
 verifier = { path = "crates/verifier" }
+axum = "0.7.9"
+eyre="0.6.2"
+tokio = { version = "1.37.0", features = ["full"] }
