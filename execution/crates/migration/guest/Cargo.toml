@@ -15,4 +15,4 @@ jolt = { package = "jolt-sdk", git = "https://github.com/a16z/jolt", rev="55c577
 serde = { version = "1.0", features = ["derive"] }
 chrono = { version = "0.4", features = ["serde"] }
 sha3 = { version = "0.10.8"}
-verifier = { path = "../../../crates/verifier" }
+verifier = { git = "https://github.com/0xZeroLabs/the-forge", package = "verifier", branch = "main" }
