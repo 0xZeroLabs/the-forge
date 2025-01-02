@@ -9,7 +9,7 @@ publish = false
 
 [[example]]
 name = "lengthy-post"
-path = "twitter/lengthy_post.rs"
+path = "twitter/lenghty_post.rs"
 
 [[example]]
 name = "image-post"
