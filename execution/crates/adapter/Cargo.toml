@@ -1,0 +1,17 @@
+[package]
+name = "eigenda_adapter"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "eigenda_adapter"
+path = "src/lib.rs"
+
+[dependencies]
+tonic = { version = "0.7", features = ["tls", "tls-roots"] }
+prost = "0.10"
+tokio = { version = "1", features = ["full"] }
+base64 = "0.13"
+
+[build-dependencies]
+tonic-build = "0.7"
