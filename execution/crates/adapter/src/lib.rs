@@ -100,8 +100,8 @@ mod tests {
             let mut client = DisperserClient::connect(endpoint).await.unwrap();
 
             let request = tonic::Request::new(RetrieveBlobRequest {
-                batch_header_hash: batch_header_hash,
-                blob_index: blob_index,
+                batch_header_hash,
+                blob_index,
             });
 
             let response = client.retrieve_blob(request).await.unwrap();
