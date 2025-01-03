@@ -15,5 +15,6 @@ COPY crates ./crates
 # Build the application in release mode
 RUN cargo build --release
 
-# Run the binary
+# Run the binary and expose HTTP port
+EXPOSE 2077
 CMD ["./target/release/forge-exec-service"]
