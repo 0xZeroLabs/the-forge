@@ -1,0 +1,19 @@
+# Use the official Rust image as a parent image
+FROM rust:latest
+
+# Set the working directory in the container
+WORKDIR /usr/src/forge-exec-service
+
+# Copy the Cargo.toml and Cargo.lock files
+COPY Cargo.toml Cargo.lock ./
+
+# Copy the source files and fixtures
+COPY src ./src
+COPY fixtures ./fixtures
+COPY crates ./crates
+
+# Build the application in release mode
+RUN cargo build --release
+
+# Run the binary
+CMD ["./target/release/forge-exec-service"]
