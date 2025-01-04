@@ -19,7 +19,7 @@ fn migrate(pre_image: Input) -> Output {
         println!("-------------------------------------------------------------------");
     }
 
-    let output = match verify_proof_from_json(pre_image.transcript) {
+    let output = match verify_proof_from_json(pre_image.transcript.unwrap()) {
         Ok(result) => {
             print_verification_result(&result);
             Output {
