@@ -8,7 +8,7 @@ pub struct Input {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Output {
-    pub server_name: String,
+    pub server_name: ServerName,
     pub time: chrono::DateTime<chrono::Utc>,
     pub sent_data: String,
     pub received_data: String,

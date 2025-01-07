@@ -30,21 +30,15 @@ fn migrate(pre_image: Input) -> Output {
         println!("-------------------------------------------------------------------");
     }
 
-    let output = match verify_proof_from_json(pre_image.transcript.unwrap()) {
-        Ok(result) => {
-            print_verification_result(&result);
-            Output {
-                server_name: result.server_name,
-                time: result.time,
-                sent_data: result.sent_data,
-                received_data: result.recieved_data,
-            }
-        }
-        Err(e) => {
-            eprintln!("Verification failed: {}", e);
-            Output::default()
-        }
-    };
+    let result = verify_proof_from_json(pre_image.transcript.as_str())
+            .expect("Verification failed");
 
-    output
+    print_verification_result(&result);
+
+    Output {
+        server_name: result.server_name,
+        time: result.time,
+        sent_data: result.sent_data,
+        received_data: result.received_data,
+    }
 }
