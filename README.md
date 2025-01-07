@@ -44,13 +44,13 @@ The following is currently on our roadmap but has a few technical overhead.
 
 Installing Othentic CLI with `npm`:
 
-```console
+```sh
 npm i -g @othentic/othentic-cli
 ```
 
 Verify installation by the command:
 
-```console
+```sh
 othentic-cli -h
 ```
 
@@ -98,7 +98,7 @@ docker run --init -p 127.0.0.1:2077:2077 ghcr.io/0xZeroLabs/the-forge:latet
 
 To check the health of the AVS, we can send a GET request to the node endpoint:
 
-```console
+```sh
 curl -X GET <http://localhost:2077/health>
 ```
 
@@ -111,6 +111,6 @@ You should receive a response with a status code of 200 and a message of "OK".
 To update the `othentic-cli` inside the docker images to the latest version, you
 need to rebuild the images using the following command:
 
-```console
+```sh
 docker-compose build --no-cache
 ```
