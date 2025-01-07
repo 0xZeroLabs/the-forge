@@ -16,3 +16,6 @@ serde = { version = "1.0", features = ["derive"] }
 chrono = { version = "0.4", features = ["serde"] }
 sha3 = { version = "0.10.8"}
 verifier = { git = "https://github.com/0xZeroLabs/the-forge", package = "verifier", branch = "main" }
+bytemuck = "1.12"
+getrandom = {version = "0.2", features = ["custom"] }
+rand = "0.8"

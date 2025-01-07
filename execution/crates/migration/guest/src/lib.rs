@@ -3,6 +3,17 @@ pub mod utils;
 pub use utils::{Input, Output};
 
 use verifier::verify_proof_from_json;
+use bytemuck;
+use getrandom::Error;
+use getrandom::register_custom_getrandom;
+use rand::{Rng, thread_rng};
+
+pub fn zkvm_random(dest: &mut [u8]) -> Result<(), Error> {
+    let mut rng = thread_rng();
+    rng.fill(dest);
+    Ok(())
+}
+register_custom_getrandom!(zkvm_random);
 
 #[jolt::provable]
 fn migrate(pre_image: Input) -> Output {
