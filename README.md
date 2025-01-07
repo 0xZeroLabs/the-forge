@@ -29,7 +29,7 @@ The Forge is an AVS built on [EigenLayer](https://eigenlayer.xyz) through the [O
 We're currently focused on achieving the following to get a working version of The Forge:
 
 - [x] Story Protocol IP smart contracts
-- [x] IP registration in execution registrar via Alloy
+- [ ] IP registration in execution registrar via Alloy
 - [x] Transcript verification
 - [ ] Metadata schema system (instructs registrar)
 
