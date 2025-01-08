@@ -1,0 +1,20 @@
+name: CI/Execution Docker Image to GHCR
+
+on:
+  push:
+    branches:
+      - main
+  release:
+    types:
+      - released
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: build and push the image
+        run: |
+          docker login --username hey-ewan --password ${{ secrets.GH_PAT }} ghcr.io
+          docker build . --tag ghcr.io/0xzeroorg/the-forge:latest
+          docker push ghcr.io/0xzeroorg/the-forge:latest
