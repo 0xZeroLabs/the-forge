@@ -4,8 +4,8 @@ FROM rust:latest
 # Set the working directory in the container
 WORKDIR /usr/src/forge-exec-service
 
-# Copy the Cargo.toml and Cargo.lock files
-COPY Cargo.toml Cargo.lock ./
+# Copy the Cargo.toml and extra files
+COPY Cargo.toml ./
 
 # Copy the source files and fixtures
 COPY src ./src
