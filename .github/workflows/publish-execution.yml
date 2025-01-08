@@ -13,8 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: build and push the image
-      - working-directory: ./execution/
+        working-directory: ./execution
         run: |
           docker login --username hey-ewan --password ${{ secrets.GH_PAT }} ghcr.io
           docker build . --tag ghcr.io/0xzeroorg/the-forge:latest
