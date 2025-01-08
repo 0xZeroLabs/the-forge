@@ -18,6 +18,6 @@ jobs:
       - name: build and push the image
         working-directory: ./execution
         run: |
-          docker login --username hey-ewan --password ${{ secrets.GH_PAT }} ghcr.io
+          docker login --username hey-ewan --password ${{ secrets.GITHUB_TOKEN }} ghcr.io
           docker build . --tag ghcr.io/0xzerolabs/the-forge/execution:latest
           docker push ghcr.io/0xzerolabs/the-forge/execution:latest
