@@ -88,7 +88,7 @@ othentic-cli operator deposit --strategy stETH --shares 0.01
 We'll be providing a docker file which will run the execution service and the attester nodes. To run the node, run:
 
 ```sh
-docker run --init -p 127.0.0.1:2077:2077 ghcr.io/0xZeroLabs/the-forge:latet
+docker run --init -p 127.0.0.1:2077:2077 ghcr.io/0xzerolabs/the-forge/execution:latest
 ```
 
 > [!NOTE]
