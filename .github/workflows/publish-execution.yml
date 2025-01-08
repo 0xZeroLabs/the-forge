@@ -1,9 +1,6 @@
 name: CI/Execution Docker Image to GHCR
 
 on:
-  push:
-    branches:
-      - main
   release:
     types:
       - released
