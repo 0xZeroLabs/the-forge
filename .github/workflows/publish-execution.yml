@@ -7,6 +7,7 @@ on:
   release:
     types:
       - released
+      - prereleased
 
 jobs:
   build_and_publish:
@@ -18,5 +19,5 @@ jobs:
         working-directory: ./execution
         run: |
           docker login --username hey-ewan --password ${{ secrets.GH_PAT }} ghcr.io
-          docker build . --tag ghcr.io/0xzeroorg/the-forge/execution:latest
-          docker push ghcr.io/0xzeroorg/the-forge/execution:latest
+          docker build . --tag ghcr.io/0xzerolabs/the-forge/execution:latest
+          docker push ghcr.io/0xzerolabs/the-forge/execution:latest
