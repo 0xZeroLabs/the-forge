@@ -31,7 +31,7 @@ We're currently focused on achieving the following to get a working version of T
 - [x] Story Protocol IP smart contracts
 - [ ] IP registration in execution registrar via Alloy
 - [x] Transcript verification
-- [ ] Metadata schema system (instructs registrar)
+- [x] Metadata schema system (instructs registrar)
 
 The following is currently on our roadmap but has a few technical overhead.
 
