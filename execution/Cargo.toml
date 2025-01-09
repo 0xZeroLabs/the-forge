@@ -1,7 +1,6 @@
 [workspace]
 members = [".", "crates/*"]
 default-members = ["."]
-exclude = ["crates/migration/guest"]
 
 [package]
 name = "execution"
@@ -16,7 +15,6 @@ chrono = "0.4"
 verifier = { path = "crates/verifier" }
 
 [dependencies]
-# migration = { path = "crates/migration" }
 verifier = { path = "crates/verifier" }
 axum = "0.7.9"
 eyre="0.6.2"
