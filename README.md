@@ -97,7 +97,7 @@ docker run --init -p 127.0.0.1:2077:2077 ghcr.io/0xzerolabs/the-forge/execution:
 
 ## 🚀 Checking the health status of your AVS node
 
-To check the health of the AVS, we can send a GET request to the node endpoint:
+To check the health of the AVS node, we can send a GET request to the node endpoint:
 
 ```sh
 curl -X GET <http://localhost:2077/health>
@@ -105,13 +105,4 @@ curl -X GET <http://localhost:2077/health>
 
 You should receive a response with a status code of 200 and a message of "OK".
 
-✅ Your demo AVS is functional!
-
-### Updating the Othentic node version
-
-To update the `othentic-cli` inside the docker images to the latest version, you
-need to rebuild the images using the following command:
-
-```sh
-docker-compose build --no-cache
-```
+✅ Your AVS node is now functional and part of The Forge!
