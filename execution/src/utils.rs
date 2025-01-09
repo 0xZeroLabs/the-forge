@@ -5,7 +5,7 @@ use std::error::Error;
 
 #[derive(Serialize, Deserialize)]
 pub struct Input {
-    pub transcript: String,
+    pub transcript_proof: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -17,26 +17,26 @@ pub enum PropertyType {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Property {
-    key: String,
-    value: String,
+    pub key: String,
+    pub value: String,
     #[serde(rename = "type")]
-    property_type: PropertyType,
+    pub property_type: PropertyType,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Metadata {
-    property: Property,
-    owner: String,
+    pub property: Property,
+    pub owner: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ContentSchema {
-    category: String,
-    source: String,
-    url: String,
-    metadata: Metadata,
-    name: String,
-    address: Address,
+    pub category: String,
+    pub source: String,
+    pub url: String,
+    pub metadata: Metadata,
+    pub name: String,
+    pub address: Address,
 }
 
 pub fn parse_content_json(json_str: &str) -> Result<ContentSchema, Box<dyn Error>> {
