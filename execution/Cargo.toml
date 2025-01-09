@@ -1,6 +1,7 @@
 [workspace]
 members = [".", "crates/*"]
 default-members = ["."]
+exclude = ["crates/migration/guest"]
 
 [package]
 name = "execution"
