@@ -11,4 +11,5 @@ path = "src/lib.rs"
 [dependencies]
 alloy = { version = "0.9.0", features = ["full"] }
 eyre = "0.6.12"
+pinata-sdk = "1.1.0"
 tokio = "1.42.0"
