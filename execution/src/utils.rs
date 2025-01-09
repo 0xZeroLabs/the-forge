@@ -60,11 +60,11 @@ mod tests {
             "address": "0x0000000000000000000000000000000000000000",
             "metadata": {
                 "property": {
-                    "key": "data.post_image_url",
+                    "key": "received|post_image_url",
                     "value": "https://example.com/image.png",
                     "type": "url"
                 },
-                "owner": "data.user_id_str"
+                "owner": "received|user_id_str"
             }
         }"#;
 
