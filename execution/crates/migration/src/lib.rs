@@ -26,22 +26,11 @@ pub async fn generate_zk_proof(input_path: &str) -> Result<Value, String> {
     // Create a headers map with the API key.
     let header = headers_json(&api_key);
 
-    // Upload the guest code to Sindri and compile it to RISCV bytecode.
-    compile_guest_code(header.clone())
-        .await
-        .map_err(|e| format!("Failed to compile guest code: {}", e))?;
-
     // Generate proof using the input
-    prove_guest_code(input_path, header)
-        .await
-        .map_err(|e| format!("Failed to generate proof: {}", e))?;
-
-    // Read the generated proof from the data directory
-    let proof_content = std::fs::read_to_string("./data/prove_out.json")
-        .map_err(|e| format!("Failed to read generated proof: {}", e))?;
-
-    let proof_json: Value = serde_json::from_str(&proof_content)
-        .map_err(|e| format!("Failed to parse proof JSON: {}", e))?;
+    let proof_json = match prove_guest_code(input_path, header).await {
+        Ok(json) => json,
+        Err(e) => return Err(format!("Failed to generate proof: {}", e)),
+    };
 
     Ok(proof_json)
 }

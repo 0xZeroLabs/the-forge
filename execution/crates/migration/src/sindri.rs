@@ -59,7 +59,7 @@ pub async fn compile_guest_code(header: HeaderMap) {
 }
 
 // This function proves the circuit using the input data provided by the user.
-pub async fn prove_guest_code(json_input_path: &str, header: HeaderMap) {
+pub async fn prove_guest_code(json_input_path: &str, header: HeaderMap) -> Value {
     println!("Reading circuit details locally");
     let mut file = File::open("./data/compile_out.json").unwrap();
     let mut data = String::new();
@@ -95,11 +95,7 @@ pub async fn prove_guest_code(json_input_path: &str, header: HeaderMap) {
         std::process::exit(1);
     }
 
-    println!("Saving proof details locally");
-    let file = File::create("./data/prove_out.json").unwrap();
-    let mut writer = BufWriter::new(file);
-    serde_json::to_writer_pretty(&mut writer, &proof_data).unwrap();
-    writer.flush().unwrap();
+    proof
 }
 
 // This function creates a header map with the API key and sets Accept header to
