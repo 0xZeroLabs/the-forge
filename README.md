@@ -37,7 +37,7 @@ The following is currently on our roadmap but has a few technical overhead.
 
 - [ ] Prover with zkVM (Transcript verifier)
 - [ ] Attestation service ZKP verification
-- [ ] Onchain registry for tracking Forged IPs ...
+- [ ] Onchain registry for tracking Forge IPs ...
 
 # ⚙️ Set Up
 
