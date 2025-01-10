@@ -1,0 +1,8 @@
+[package]
+name = "irys"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bundlr-sdk = { version = "0.5.0", git = "https://github.com/irys-xyz/rust-sdk", package = "bundlr-sdk" }
+reqwest = { version = "0.11", default-features = false, features = ["rustls-tls", "json"] }
