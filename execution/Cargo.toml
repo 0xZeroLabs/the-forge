@@ -17,6 +17,7 @@ verifier = { path = "crates/verifier" }
 [dependencies]
 verifier = { path = "crates/verifier" }
 irys = { path = "crates/irys" }
+eigenda = { path = "crates/adapter" }
 axum = "0.7.9"
 eyre="0.6.2"
 serde = { version = "1.0.147", features = ["derive"] }
