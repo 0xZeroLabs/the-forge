@@ -1,11 +1,6 @@
 use serde::{Deserialize, Serialize};
 use tlsn_core::ServerName;
 
-#[derive(Serialize, Deserialize)]
-pub struct Input {
-    pub transcript: String,
-}
-
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Output {
     pub server_name: ServerName,

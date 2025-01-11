@@ -1,11 +1,7 @@
 {
   "$schema": "https://sindri.app/api/v1/sindri-manifest-schema.json",
   "name": "migration",
-  "circuitType": "jolt",
-  "provingScheme": "jolt",
-  "commitmentScheme": "hyperkzg",
-  "joltVersion": "0.1.0",
-  "stdEnabled": true,
-  "packageName": "guest",
-  "guestFunction": "migrate"
+  "circuitType": "sp1",
+  "provingScheme": "groth16",
+  "sp1Version": "3.0.0"
 }

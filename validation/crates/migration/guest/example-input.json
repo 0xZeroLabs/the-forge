@@ -1,4 +1,4 @@
-{"input": {
+{"buffer": [{
     "session": {
         "header": {
             "encoder_seed": [
@@ -6521,4 +6521,4 @@
         }
     },
     "notaryUrl": "https://notary.pse.dev/v0.1.0-alpha.5/"
-}, "num_iters": 5 }
+}], "ptr":0,"proofs":[] }

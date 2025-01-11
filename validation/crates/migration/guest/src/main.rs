@@ -1,12 +1,11 @@
 #![no_main]
 pub mod utils;
-pub use utils::{Input, Output};
+pub use utils::Output;
 
-use verifier::verify_proof_from_json;
-use bytemuck;
-use getrandom::Error;
 use getrandom::register_custom_getrandom;
-use rand::{Rng, thread_rng};
+use getrandom::Error;
+use rand::{thread_rng, Rng};
+use verifier::verify_proof_from_json;
 
 pub fn zkvm_random(dest: &mut [u8]) -> Result<(), Error> {
     let mut rng = thread_rng();
@@ -15,8 +14,11 @@ pub fn zkvm_random(dest: &mut [u8]) -> Result<(), Error> {
 }
 register_custom_getrandom!(zkvm_random);
 
-#[jolt::provable]
-fn migrate(pre_image: Input) -> Output {
+sp1_zkvm::entrypoint!(main);
+
+pub fn main() {
+    let transcript = sp1_zkvm::io::read::<String>();
+
     fn print_verification_result(result: &verifier::VerificationResult) {
         println!("-------------------------------------------------------------------");
         println!(
@@ -30,15 +32,9 @@ fn migrate(pre_image: Input) -> Output {
         println!("-------------------------------------------------------------------");
     }
 
-    let result = verify_proof_from_json(pre_image.transcript.as_str())
-            .expect("Verification failed");
+    let result = verify_proof_from_json(transcript.as_str()).expect("Verification failed");
 
     print_verification_result(&result);
 
-    Output {
-        server_name: result.server_name,
-        time: result.time,
-        sent_data: result.sent_data,
-        received_data: result.received_data,
-    }
+    sp1_zkvm::io::commit(&result);
 }
