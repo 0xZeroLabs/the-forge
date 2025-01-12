@@ -85,7 +85,7 @@ mod tests {
             content.address,
             address!("0x0000000000000000000000000000000000000000")
         );
-        assert_eq!(content.metadata.property.key, "data.post_image_url");
+        assert_eq!(content.metadata.property.key, "received|post_image_url");
         assert_eq!(
             content.metadata.property.value,
             "https://example.com/image.png"
@@ -94,7 +94,7 @@ mod tests {
             content.metadata.property.property_type,
             PropertyType::URL
         ));
-        assert_eq!(content.metadata.owner, "data.user_id_str");
+        assert_eq!(content.metadata.owner, "received|user_id_str");
 
         // Test invalid JSON
         let invalid_json = r#"{
