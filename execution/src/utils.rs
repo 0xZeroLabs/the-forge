@@ -44,9 +44,67 @@ pub fn parse_content_json(json_str: &str) -> Result<ContentSchema, Box<dyn Error
     Ok(content)
 }
 
+pub fn get_content_data(ct: &str, key: &str) -> Result<String, Box<dyn Error>> {
+    let array: Vec<&str> = key.split_terminator('|').collect();
+
+    if array.len() < 2 {
+        return Err("Invalid key format - must have at least 2 parts separated by |".into());
+    }
+
+    // Get the header name we're looking for from the second part of the key
+    let header_name = array[1].to_lowercase();
+
+    // Split response into lines and look for the header
+    for line in ct.lines() {
+        let line = line.trim();
+        let parts: Vec<&str> = line.split(": ").collect();
+        if parts.len() == 2 {
+            let current_header = parts[0].to_lowercase();
+            if current_header == header_name {
+                return Ok(parts[1].to_string());
+            }
+        }
+    }
+
+    Err(format!("Header '{}' not found in response", header_name).into())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[tokio::test]
+    async fn test_get_content_data() {
+        let http_response = r#"HTTP/1.1 200 OK
+  date: Thu, 19 Sep 2024 12:23:10 GMT
+  content-type: application/json;charset=utf-8
+  server: tsa_o
+  status: 200 OK
+  x-transaction-id: bcdaba45f8cff3ed"#;
+
+        // Test successful extraction
+        let result = get_content_data(http_response, "received|content-type");
+        match &result {
+            Ok(_) => println!("Extraction successful"),
+            Err(e) => println!("Extraction error: {}", e),
+        }
+        assert!(result.is_ok());
+        assert_eq!(result.unwrap(), "application/json;charset=utf-8");
+
+        // Test case-insensitive matching
+        let result = get_content_data(http_response, "received|CONTENT-TYPE");
+        assert!(result.is_ok());
+        assert_eq!(result.unwrap(), "application/json;charset=utf-8");
+
+        // Test header not found
+        let result = get_content_data(http_response, "received|nonexistent-header");
+        assert!(result.is_err());
+
+        // Test invalid key format
+        let result = get_content_data(http_response, "invalid_key");
+        assert!(result.is_err());
+    }
+
     use alloy::primitives::address;
 
     #[tokio::test]
