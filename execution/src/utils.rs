@@ -49,8 +49,8 @@ mod tests {
     use super::*;
     use alloy::primitives::address;
 
-    #[test]
-    fn test_parse_content_json() {
+    #[tokio::test]
+    async fn test_parse_content_json() {
         // Create a test JSON string with valid data
         let json_str = r#"{
             "category": "Social",
