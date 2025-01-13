@@ -106,3 +106,11 @@ curl -X GET <http://localhost:2077/health>
 You should receive a response with a status code of 200 and a message of "OK".
 
 ✅ Your AVS node is now functional and part of The Forge!
+
+## Built with
+*This project is supported by [Hylé](hyle.eu), the lean blockchain for your provable apps*
+<p align="left">
+  <a href="https://eigenlayer.xyz" target="_blank"> <img src="assets/eigenlayer.png" width="40", height="40"/></a>
+    <a href="https://othentic.xyz" target="_blank"> <img src="assets/othentic.png" width="40", height="40"/></a>
+    <a href="https://story.foundation" target="_blank"> <img src="assets/story.png" width="40", height="40"/></a>
+</p>
