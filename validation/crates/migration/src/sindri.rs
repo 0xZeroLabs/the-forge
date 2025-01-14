@@ -59,7 +59,7 @@ pub async fn compile_guest_code(header: HeaderMap) {
 }
 
 // This function proves the circuit using the input data provided by the user.
-pub async fn prove_guest_code(json_input_path: &str, header: HeaderMap) -> Value {
+pub async fn prove_guest_code(json_input: &str, header: HeaderMap) -> Value {
     println!("Reading circuit details locally");
     let mut file = File::open("./data/compile_out.json").unwrap();
     let mut data = String::new();
@@ -70,9 +70,7 @@ pub async fn prove_guest_code(json_input_path: &str, header: HeaderMap) -> Value
 
     // Initiate proof generation.
     println!("Reading proof input from input.json file");
-    let mut proof_input_file = File::open(json_input_path).unwrap();
-    let mut proof_input = String::new();
-    proof_input_file.read_to_string(&mut proof_input).unwrap();
+    let mut proof_input = json_input.to_string();
     let map = serde_json::json!({"proof_input": proof_input});
 
     println!("Requesting a proof");
