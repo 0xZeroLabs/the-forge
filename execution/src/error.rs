@@ -3,7 +3,7 @@ use axum::{
     response::{IntoResponse, Response},
 };
 use eyre::Report;
-use std::error::Error;
+// use std::error::Error;
 
 #[derive(Debug, thiserror::Error)]
 pub enum MainProcessError {
@@ -18,6 +18,9 @@ pub enum MainProcessError {
 
     #[error("Invalid transcript proof: {0}")]
     BadTranscriptProof(String),
+
+    #[error("Invalid content schema")]
+    BadContentSchema(String),
 }
 
 impl MainProcessError {
@@ -25,7 +28,9 @@ impl MainProcessError {
         match self {
             Self::Axum(_) => StatusCode::INTERNAL_SERVER_ERROR,
             Self::Unexpected(_) => StatusCode::INTERNAL_SERVER_ERROR,
-            Self::BadRequest(_) | Self::BadTranscriptProof(_) => StatusCode::BAD_REQUEST,
+            Self::BadRequest(_) | Self::BadTranscriptProof(_) | Self::BadContentSchema(_) => {
+                StatusCode::BAD_REQUEST
+            }
         }
     }
 }
