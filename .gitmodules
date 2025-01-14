@@ -1,6 +1,6 @@
 [submodule "execution/crates/contracts/lib/forge-std"]
 	path = execution/crates/contracts/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
-[submodule "execution/crates/adapter/external/eigenda"]
-	path = execution/crates/adapter/external/eigenda
+[submodule "execution/crates/eigenda/external/eigenda"]
+	path = execution/crates/eigenda/external/eigenda
 	url = https://github.com/Layr-Labs/eigenda.git
