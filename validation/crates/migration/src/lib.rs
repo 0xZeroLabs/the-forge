@@ -2,7 +2,7 @@ mod sindri;
 
 use dotenvy::dotenv;
 use serde_json::Value;
-use sindri::{compile_guest_code, headers_json, prove_guest_code};
+use sindri::{headers_json, prove_guest_code};
 
 pub struct ZKProofVerificationResult {
     pub is_valid: bool,
@@ -20,16 +20,17 @@ pub async fn generate_zk_proof(input: &str) -> Result<Value, String> {
     let header = headers_json(&api_key);
 
     // Generate proof using the input
-    let proof_json = match prove_guest_code(input, header).await {
-        Ok(json) => json,
-        Err(e) => return Err(format!("Failed to generate proof: {}", e)),
-    };
-
-    Ok(proof_json)
+    Ok(prove_guest_code(input, header).await)
 }
 
 // Function to verify the proof directly from JSON
-pub fn verify_zk_proof(proof_json: Value) -> Result<ZKProofVerificationResult, String> {
-    let json_data: JsonProofData = serde_json::from_value(proof_json["proof"].clone())
-        .map_err(|e| format!("Failed to parse proof data: {}", e))?;
-}
+// pub fn verify_zk_proof(proof_json: Value) ->
+// Result<ZKProofVerificationResult, String> {     let json_data: JsonProofData
+// = serde_json::from_value(proof_json["proof"].clone())         .map_err(|e|
+// format!("Failed to parse proof data: {}", e))?;
+
+//     let result = ZKProofVerificationResult { is_valid: false, public_data: ""
+// };
+
+//     Ok(result)
+// }
