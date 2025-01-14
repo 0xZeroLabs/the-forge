@@ -1,6 +1,7 @@
 mod error;
 mod server;
 mod service;
+mod utils;
 
 use server::run_server;
 
