@@ -87,7 +87,7 @@ mod tests {
 
     #[test]
     fn publish_verify_data() {
-        let original = r#"00{ "message": "hello world" }"#;
+        let original = String::from("00") + r#"{ "message": "hello world" }"#;
         let (batch_header_hash, blob_index) =
             tokio::runtime::Runtime::new().unwrap().block_on(async {
                 println!("Publishing blob: {}", original);
