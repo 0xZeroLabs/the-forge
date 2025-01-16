@@ -109,6 +109,18 @@ You should receive a response with a status code of 200 and a message of "OK".
 
 # 🏗️ Built with
 
+## Tech stack
+- EigenLayer
+- Othentic
+- TLSN
+- EigenDA
+- Rust
+- Docker
+---
+- Irys
+- Sindri
+- SP1
+
 **This project is made possible with the tech and engineering efforts of the following organisations:**
 
 <p align="left">
