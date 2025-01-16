@@ -19,7 +19,9 @@ pub enum PropertyType {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Property {
     pub key: String,
+    pub description: String,
     pub mime: String,
+    pub tags: Vec<String>,
     #[serde(rename = "type")]
     pub property_type: PropertyType,
 }
