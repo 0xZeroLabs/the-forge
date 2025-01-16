@@ -47,10 +47,10 @@ struct IPAMeta {
 }
 
 pub async fn register_ip_from_transcript(
-    Json(payload): Json<ProofRequest>,
+    Json(body): Json<ProofRequest>,
 ) -> Result<impl IntoResponse, MainProcessError> {
-    let transcript_proof = payload.transcript_proof;
-    let schema = payload.schema;
+    let transcript_proof = body.transcript_proof;
+    let schema = body.schema;
 
 fn verify(pre_image: Input) -> Result<VerificationResult, Box<dyn Error>> {
     // fn print_verification_result(result: &verifier::VerificationResult) {
