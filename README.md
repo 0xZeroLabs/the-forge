@@ -109,12 +109,6 @@ You should receive a response with a status code of 200 and a message of "OK".
 
 # 🏗️ Built with
 
-## Tech stack
-- AVS: EigenLayer, Othentic
-- Logic: TLSN, Rust, SP1
-- Data: EigenDA, Irys
-- Infra: Docker, Sindri
-
 **This project is made possible with the tech and engineering efforts of the following organisations:**
 
 <p align="left">
@@ -123,3 +117,9 @@ You should receive a response with a status code of 200 and a message of "OK".
     <a href="https://story.foundation" target="_blank"> <img src="assets/story.png" width="40", height="40"/></a>
     <a href="https://0xzero.org" target="_blank"> <img src="https://avatars.githubusercontent.com/u/164944691?s=200&v=4" width="40", height="40"/></a>
 </p>
+
+## 🔧 Tech stack
+- AVS: EigenLayer, Othentic
+- Logic: TLSN, Rust, SP1
+- Data: EigenDA, Irys
+- Infra: Docker, Sindri
