@@ -1,9 +1,13 @@
+use std::error::Error;
+
 use crate::error::MainProcessError;
+use crate::utils::{get_content_data, parse_content_json, ContentSchema, Input};
 
 use alloy::primitives::Address;
 use axum::{http::StatusCode, response::IntoResponse, Json};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
+use verifier::{verify_proof_from_json, VerificationResult};
 
 #[derive(Deserialize)]
 pub struct ProofRequest {
