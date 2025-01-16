@@ -7,8 +7,8 @@ use serde_json::Value;
 
 #[derive(Deserialize)]
 pub struct ProofRequest {
-    transcript_proof: String,
-    schema: String,
+    pub transcript_proof: String,
+    pub schema: String,
 }
 
 #[derive(Serialize, Deserialize)]
