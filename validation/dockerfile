@@ -1,0 +1,20 @@
+# Use the official Rust image as a parent image
+FROM rust:latest
+
+# Set the working directory in the container
+WORKDIR /usr/src/forge-valid-service
+
+# Copy the Cargo.toml and extra files
+COPY Cargo.toml ./
+
+# Copy the source files and fixtures
+COPY src ./src
+COPY fixture ./fixture
+COPY crates ./crates
+
+# Build the application in release mode
+RUN cargo build --release
+
+# Run the binary and expose HTTP port
+EXPOSE 2078
+CMD ["./target/release/forge-valid-service"]

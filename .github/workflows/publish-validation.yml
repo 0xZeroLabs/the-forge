@@ -1,0 +1,25 @@
+name: CI/Validation Docker Image to GHCR
+
+on:
+  release:
+    types:
+      - released
+      - prereleased
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: build and push the image
+        working-directory: ./validation
+        run: |
+          docker login --username hey-ewan --password ${{ secrets.GITHUB_TOKEN }} ghcr.io
+          VERSION=${{ github.event.release.tag_name }}
+          docker build . --tag ghcr.io/0xzerolabs/the-forge/validation:latest --tag ghcr.io/0xzerolabs/the-forge/validation:${VERSION}
+          docker push ghcr.io/0xzerolabs/the-forge/validation:latest
+          docker push ghcr.io/0xzerolabs/the-forge/validation:${VERSION}
+    permissions:
+      contents: read
+      packages: write
