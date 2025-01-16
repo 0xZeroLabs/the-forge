@@ -50,6 +50,13 @@ struct IPAMeta {
     attributes: Vec<IPAttribute>,
 }
 
+#[derive(Serialize, Deserialize)]
+struct NFTMeta {
+    name: String,
+    description: String,
+    image: String,
+}
+
 pub async fn register_ip_from_transcript(
     Json(body): Json<ProofRequest>,
 ) -> Result<impl IntoResponse, MainProcessError> {
