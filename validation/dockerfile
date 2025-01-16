@@ -1,6 +1,15 @@
 # Use the official Rust image as a parent image
 FROM rust:latest
 
+# Install cmake and other dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    cmake \
+    build-essential \
+    libssl-dev \
+    pkg-config \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 # Set the working directory in the container
 WORKDIR /usr/src/forge-valid-service
 
@@ -12,7 +21,7 @@ COPY src ./src
 COPY crates ./crates
 
 # Build the application in release mode
-RUN apt-get install -y cmake && cargo build --release
+RUN cargo build --release
 
 # Run the binary and expose HTTP port
 EXPOSE 2078
