@@ -13,7 +13,7 @@ COPY fixture ./fixture
 COPY crates ./crates
 
 # Build the application in release mode
-RUN cargo build --release
+RUN apt-get install -y cmake && cargo build --release
 
 # Run the binary and expose HTTP port
 EXPOSE 2077
