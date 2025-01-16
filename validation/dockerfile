@@ -9,7 +9,6 @@ COPY Cargo.toml ./
 
 # Copy the source files and fixtures
 COPY src ./src
-COPY fixture ./fixture
 COPY crates ./crates
 
 # Build the application in release mode
