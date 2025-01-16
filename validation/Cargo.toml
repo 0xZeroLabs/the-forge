@@ -16,4 +16,4 @@ chrono = "0.4"
 
 [dependencies]
 migration = { path = "crates/migration" }
-verifier = {path = "../execution/crates/verifier"}
+verifier = { git = "https://github.com/0xZeroLabs/the-forge", package = "verifier", branch = "main" }
