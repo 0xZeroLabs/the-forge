@@ -12,14 +12,14 @@ pub struct Input {
 #[serde(rename_all = "lowercase")]
 pub enum PropertyType {
     URL,
-    Text,
+    Json,
     File,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Property {
     pub key: String,
-    pub value: String,
+    pub mime: String,
     #[serde(rename = "type")]
     pub property_type: PropertyType,
 }
