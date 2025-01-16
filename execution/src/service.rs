@@ -63,6 +63,8 @@ pub async fn register_ip_from_transcript(
     let transcript_proof = body.transcript_proof;
     let schema = body.schema;
 
+}
+
 fn verify(pre_image: Input) -> Result<VerificationResult, Box<dyn Error>> {
     // fn print_verification_result(result: &verifier::VerificationResult) {
     //     println!("-------------------------------------------------------------------");
