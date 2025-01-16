@@ -52,8 +52,10 @@ pub async fn register_ip_from_transcript(
     let transcript_proof = payload.transcript_proof;
     let schema = payload.schema;
 
-    Ok((
-        StatusCode::OK,
-        "IP sucessfully registered from transcript proof.",
-    ))
+    Ok(VerificationResult {
+        server_name: result.server_name,
+        time: result.time,
+        sent_data: result.sent_data,
+        received_data: result.received_data,
+    })
 }
