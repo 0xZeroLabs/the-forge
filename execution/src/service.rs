@@ -52,6 +52,25 @@ pub async fn register_ip_from_transcript(
     let transcript_proof = payload.transcript_proof;
     let schema = payload.schema;
 
+fn verify(pre_image: Input) -> Result<VerificationResult, Box<dyn Error>> {
+    // fn print_verification_result(result: &verifier::VerificationResult) {
+    //     println!("-------------------------------------------------------------------");
+    //     println!(
+    //         "Successfully verified that the bytes below came from a session with {:?} at {}.",
+    //         result.server_name, result.time
+    //     );
+    //     println!("Note that the bytes which the Prover chose not to disclose are shown as X.");
+    //     println!();
+    //     println!("Bytes sent:\n\n{}\n", result.sent_data);
+    //     println!("Bytes received:\n\n{}", result.received_data);
+    //     println!("-------------------------------------------------------------------");
+    // }
+
+    let result =
+        verify_proof_from_json(pre_image.transcript_proof.as_str()).expect("Verification failed");
+
+    // print_verification_result(&result);
+
     Ok(VerificationResult {
         server_name: result.server_name,
         time: result.time,
