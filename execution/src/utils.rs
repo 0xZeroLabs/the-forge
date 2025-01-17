@@ -4,6 +4,8 @@ use serde_json;
 use std::error::Error;
 use verifier::VerificationResult;
 
+use crate::error::MainProcessError::BadContentSchema;
+
 #[derive(Serialize, Deserialize)]
 pub struct Input {
     pub transcript_proof: String,
@@ -54,11 +56,15 @@ pub fn get_content_data(content: VerificationResult, key: &str) -> Result<String
     } else if key.contains('>') {
         key.split_terminator('>').collect()
     } else {
-        return Err("Invalid key format - must contain either | or >".into());
+        return Err(BadContentSchema(
+            "Invalid key format - must contain either | or >".into(),
+        ));
     };
 
     if array.len() < 2 {
-        return Err("Invalid key format - must have at least 2 parts".into());
+        return Err(BadContentSchema(
+            "Invalid key format - must have at least 2 parts".into(),
+        ));
     }
 
     let ct = if array[0].to_lowercase() == "received" {
@@ -66,7 +72,9 @@ pub fn get_content_data(content: VerificationResult, key: &str) -> Result<String
     } else if array[0].to_lowercase() == "sent" {
         content.sent_data.as_str()
     } else {
-        return Err("Invalid key format - must be a received or sent.".into());
+        return Err(BadContentSchema(
+            "Invalid key format - must be a received or sent.".into(),
+        ));
     };
 
     if key.contains('|') {
@@ -82,7 +90,9 @@ pub fn get_content_data(content: VerificationResult, key: &str) -> Result<String
                 }
             }
         }
-        Err(format!("Header '{}' not found in response", header_name).into())
+        Err(BadContentSchema(
+            format!("Header '{}' not found in response", header_name).into(),
+        ))
     } else {
         // JSON extraction
         // Find the blank line that separates headers from body
@@ -102,7 +112,9 @@ pub fn get_content_data(content: VerificationResult, key: &str) -> Result<String
         if found_blank {
             json_body = lines.collect::<Vec<&str>>().join("");
         } else {
-            return Err("Could not find JSON body in response".into());
+            return Err(BadContentSchema(
+                "Could not find JSON body in response".into(),
+            ));
         }
 
         let json_value: serde_json::Value = serde_json::from_str(&json_body)?;
@@ -117,7 +129,9 @@ pub fn get_content_data(content: VerificationResult, key: &str) -> Result<String
                 serde_json::Value::Object(o) => Ok(serde_json::to_string(o)?),
                 serde_json::Value::Array(a) => Ok(serde_json::to_string(a)?),
             },
-            None => Err(format!("Field '{}' not found in JSON response", field_name).into()),
+            None => Err(BadContentSchema(
+                format!("Field '{}' not found in JSON response", field_name).into(),
+            )),
         }
     }
 }
