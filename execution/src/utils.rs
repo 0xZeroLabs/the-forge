@@ -2,6 +2,7 @@ use alloy::primitives::Address;
 use serde::{Deserialize, Serialize};
 use serde_json;
 use std::error::Error;
+use verifier::VerificationResult;
 
 #[derive(Serialize, Deserialize)]
 pub struct Input {
@@ -47,7 +48,7 @@ pub fn parse_content_json(json_str: &str) -> Result<ContentSchema, Box<dyn Error
     Ok(content)
 }
 
-pub fn get_content_data(ct: &str, key: &str) -> Result<String, Box<dyn Error>> {
+pub fn get_content_data(content: VerificationResult, key: &str) -> Result<String, Box<dyn Error>> {
     let array: Vec<&str> = if key.contains('|') {
         key.split_terminator('|').collect()
     } else if key.contains('>') {
@@ -59,6 +60,14 @@ pub fn get_content_data(ct: &str, key: &str) -> Result<String, Box<dyn Error>> {
     if array.len() < 2 {
         return Err("Invalid key format - must have at least 2 parts".into());
     }
+
+    let ct = if array[0].to_lowercase() == "received" {
+        content.received_data.as_str()
+    } else if array[0].to_lowercase() == "sent" {
+        content.sent_data.as_str()
+    } else {
+        return Err("Invalid key format - must be a received or sent.".into());
+    };
 
     if key.contains('|') {
         // HTTP header extraction
