@@ -9,9 +9,7 @@ mod common {
 use std::time::Duration;
 
 use disperser::disperser_client::DisperserClient;
-use disperser::{
-    BlobStatus, BlobStatusReply, BlobStatusRequest, DisperseBlobRequest, RetrieveBlobRequest,
-};
+use disperser::{BlobStatus, BlobStatusReply, BlobStatusRequest, DisperseBlobRequest};
 
 pub async fn publish_blob(d: String) -> Result<(Vec<u8>, u32), Box<dyn std::error::Error>> {
     let endpoint = "https://disperser-preprod-holesky.eigenda.xyz:443";
