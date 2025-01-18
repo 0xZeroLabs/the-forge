@@ -4,7 +4,7 @@ use serde_json;
 use std::error::Error;
 use verifier::VerificationResult;
 
-use crate::error::MainProcessError::BadContentSchema;
+use crate::error::MainProcessError::{self, BadContentSchema};
 
 #[derive(Serialize, Deserialize)]
 pub struct Input {
@@ -46,11 +46,14 @@ pub struct ContentSchema {
 }
 
 pub fn parse_content_json(json_str: &str) -> Result<ContentSchema, Box<dyn Error>> {
-    let content: ContentSchema = serde_json::from_str(json_str)?;
+    let content: ContentSchema = serde_json::from_str(json_str).unwrap(); // figure error handling
     Ok(content)
 }
 
-pub fn get_content_data(content: VerificationResult, key: &str) -> Result<String, Box<dyn Error>> {
+pub fn get_content_data(
+    content: &VerificationResult,
+    key: &str,
+) -> Result<String, MainProcessError> {
     let array: Vec<&str> = if key.contains('|') {
         key.split_terminator('|').collect()
     } else if key.contains('>') {
@@ -117,7 +120,7 @@ pub fn get_content_data(content: VerificationResult, key: &str) -> Result<String
             ));
         }
 
-        let json_value: serde_json::Value = serde_json::from_str(&json_body)?;
+        let json_value: serde_json::Value = serde_json::from_str(&json_body).unwrap(); //figure error handling
         let field_name = array[1];
 
         match json_value.get(field_name) {
@@ -126,8 +129,8 @@ pub fn get_content_data(content: VerificationResult, key: &str) -> Result<String
                 serde_json::Value::Bool(b) => Ok(b.to_string()),
                 serde_json::Value::Number(n) => Ok(n.to_string()),
                 serde_json::Value::Null => Ok("null".to_string()),
-                serde_json::Value::Object(o) => Ok(serde_json::to_string(o)?),
-                serde_json::Value::Array(a) => Ok(serde_json::to_string(a)?),
+                serde_json::Value::Object(o) => Ok(serde_json::to_string(o).unwrap()), // same deal
+                serde_json::Value::Array(a) => Ok(serde_json::to_string(a).unwrap()),  // same deal
             },
             None => Err(BadContentSchema(
                 format!("Field '{}' not found in JSON response", field_name).into(),
