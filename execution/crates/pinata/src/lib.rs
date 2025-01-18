@@ -24,7 +24,7 @@ pub async fn upload_file_from_url(
     params: FileUploadParams,
 ) -> Result<PinataResponse, Box<dyn Error>> {
     let file_url = params.file_url.as_str();
-    let file_name = params.file_name.as_str();
+    let file_name = &params.file_name;
     let file_type = params.file_type.as_str();
 
     dotenv().ok();
@@ -50,7 +50,7 @@ pub async fn upload_file_from_url(
         .part(
             "file",
             multipart::Part::bytes(file_vec)
-                .file_name(file_name) // e.g., picture.png
+                .file_name(file_name.to_owned()) // e.g., picture.png
                 .mime_str(file_type)?, // e.g., image/png,
         )
         .text("pinataOptions", r#"{"cidVersion": 1}"#);
