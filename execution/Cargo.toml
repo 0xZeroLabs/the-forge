@@ -18,6 +18,8 @@ verifier = { path = "crates/verifier" }
 verifier = { path = "crates/verifier" }
 irys = { path = "crates/irys" }
 eigenda = { path = "crates/eigenda"}
+pinata = { path = "crates/pinata" }
+registrar = { path = "crates/registrar" }
 axum = "0.7.9"
 eyre="0.6.2"
 serde = { version = "1.0.147", features = ["derive"] }

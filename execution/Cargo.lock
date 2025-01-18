@@ -2063,6 +2063,8 @@ dependencies = [
  "eigenda",
  "eyre",
  "irys",
+ "pinata",
+ "registrar",
  "serde",
  "serde_json",
  "thiserror 2.0.11",
@@ -3715,6 +3717,7 @@ version = "0.1.0"
 dependencies = [
  "dotenvy",
  "reqwest 0.11.27",
+ "serde",
  "serde_json",
 ]
 
