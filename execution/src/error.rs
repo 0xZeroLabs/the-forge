@@ -19,7 +19,7 @@ pub enum MainProcessError {
     #[error("Invalid transcript proof: {0}")]
     BadTranscriptProof(String),
 
-    #[error("Invalid content schema")]
+    #[error("Invalid content schema: {0}")]
     BadContentSchema(String),
 }
 
