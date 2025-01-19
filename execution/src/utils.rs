@@ -139,6 +139,7 @@ pub fn get_content_data(
     }
 }
 
+// todo: fix util tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -231,7 +232,7 @@ connection: close
             "metadata": {
                 "property": {
                     "key": "received|post_image_url",
-                    "value": "https://example.com/image.png",
+                    "mime": "img/png",
                     "type": "url"
                 },
                 "owner": "received|user_id_str"
@@ -256,10 +257,7 @@ connection: close
             address!("0x0000000000000000000000000000000000000000")
         );
         assert_eq!(content.metadata.property.key, "received|post_image_url");
-        assert_eq!(
-            content.metadata.property.value,
-            "https://example.com/image.png"
-        );
+        assert_eq!(content.metadata.property.mime, "img/png");
         assert!(matches!(
             content.metadata.property.property_type,
             PropertyType::URL
@@ -292,7 +290,7 @@ connection: close
             "metadata": {
                 "property": {
                     "key": "data.post_image_url",
-                    "value": "https://example.com/image.png",
+                    "mime": "img/png",
                     "type": "INVALID_TYPE"
                 },
                 "owner": "data.user_id_str"
@@ -311,7 +309,7 @@ connection: close
             "metadata": {
                 "property": {
                     "key": "data.post_image_url",
-                    "value": "https://example.com/image.png",
+                    "mime": "img/png",
                     "type": "URL"
                 },
                 "owner": "data.user_id_str"
