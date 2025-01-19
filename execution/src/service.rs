@@ -2,7 +2,7 @@ use std::error::Error;
 use std::str::FromStr;
 
 use crate::error::MainProcessError;
-use crate::utils::{get_content_data, parse_content_json, ContentSchema, Input};
+use crate::utils::{get_content_data, parse_content_json, ContentSchema, Input, PropertyType};
 
 use alloy::primitives::Address;
 use axum::{http::StatusCode, response::IntoResponse, Json};
@@ -65,15 +65,38 @@ async fn upload_file_to_ipfs(
     transcript: &VerificationResult,
     content: &ContentSchema,
 ) -> Result<String, MainProcessError> {
-    let file_up = pinata::upload_file_from_url(pinata::FileUploadParams {
-        file_url: get_content_data(transcript, &content.metadata.property.key).unwrap(),
-        file_name: "".to_string(),
-        file_type: content.metadata.property.mime.clone(),
-    })
-    .await
-    .map_err(|e| MainProcessError::BadRequest(e.to_string()))?; // define custom error type
+    let file_up = match content.metadata.property.property_type {
+        PropertyType::File => {
+            pinata::upload_file_from_url(pinata::FileUploadParams {
+                file_url: get_content_data(transcript, &content.metadata.property.key).unwrap(),
+                file_name: "".to_string(),
+                file_type: content.metadata.property.mime.clone(),
+            })
+            .await
+            .map_err(|e| MainProcessError::BadFileUse(e.to_string()))
+            .unwrap()
+            .ipfs_hash
+        }
+        PropertyType::Json => {
+            pinata::upload_json(
+                Value::from_str(
+                    &get_content_data(transcript, &content.metadata.property.key).unwrap(),
+                )
+                .unwrap(),
+            )
+            .await
+            .map_err(|e| MainProcessError::BadFileUse(e.to_string()))
+            .unwrap()
+            .ipfs_hash
+        }
+        PropertyType::URL => get_content_data(transcript, &content.metadata.property.key)
+            .map_err(|e| MainProcessError::BadFileUse(e.to_string()))?,
+    };
 
-    Ok(format!("https://ipfs.io/ipfs/{}", file_up.ipfs_hash))
+    match content.metadata.property.property_type {
+        PropertyType::File | PropertyType::Json => Ok(format!("https://ipfs.io/ipfs/{}", file_up)),
+        PropertyType::URL => Ok(file_up),
+    }
 }
 
 async fn create_and_upload_metadata(
