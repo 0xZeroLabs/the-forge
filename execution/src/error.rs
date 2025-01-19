@@ -21,6 +21,9 @@ pub enum MainProcessError {
 
     #[error("Invalid content schema: {0}")]
     BadContentSchema(String),
+
+    #[error("Failed to upload file: {0}")]
+    BadFileUse(String),
 }
 
 impl MainProcessError {
@@ -31,6 +34,7 @@ impl MainProcessError {
             Self::BadRequest(_) | Self::BadTranscriptProof(_) | Self::BadContentSchema(_) => {
                 StatusCode::BAD_REQUEST
             }
+            Self::BadFileUse(_) => StatusCode::EXPECTATION_FAILED,
         }
     }
 }
