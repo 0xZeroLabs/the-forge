@@ -46,7 +46,7 @@ pub struct ContentSchema {
 }
 
 pub fn parse_content_json(json_str: &str) -> Result<ContentSchema, Box<dyn Error>> {
-    let content: ContentSchema = serde_json::from_str(json_str).unwrap(); // figure error handling
+    let content: ContentSchema = serde_json::from_str(json_str)?;
     Ok(content)
 }
 
@@ -98,29 +98,28 @@ pub fn get_content_data(
         ))
     } else {
         // JSON extraction
-        // Find the blank line that separates headers from body
+        // Find the last header line or use the entire content if no headers are found
         let mut lines = ct.lines();
-        let mut found_blank = false;
         let mut json_body = String::new();
 
-        // Skip headers until we find a blank line
+        // Collect all lines that look like JSON (starting with '{' or ending with '}')
         while let Some(line) = lines.next() {
-            if line.trim().is_empty() {
-                found_blank = true;
+            if line.trim().starts_with('{') {
+                json_body = line.to_string();
+                // Collect any remaining lines
+                json_body.push_str(&lines.collect::<Vec<&str>>().join(""));
                 break;
             }
         }
 
-        // Collect the remaining lines as JSON
-        if found_blank {
-            json_body = lines.collect::<Vec<&str>>().join("");
-        } else {
+        if json_body.is_empty() {
             return Err(BadContentSchema(
                 "Could not find JSON body in response".into(),
             ));
         }
 
-        let json_value: serde_json::Value = serde_json::from_str(&json_body).unwrap(); //figure error handling
+        let json_value: serde_json::Value = serde_json::from_str(&json_body)
+            .map_err(|e| BadContentSchema(format!("Failed to parse JSON body: {}", e).into()))?;
         let field_name = array[1];
 
         match json_value.get(field_name) {
@@ -129,8 +128,12 @@ pub fn get_content_data(
                 serde_json::Value::Bool(b) => Ok(b.to_string()),
                 serde_json::Value::Number(n) => Ok(n.to_string()),
                 serde_json::Value::Null => Ok("null".to_string()),
-                serde_json::Value::Object(o) => Ok(serde_json::to_string(o).unwrap()), // same deal
-                serde_json::Value::Array(a) => Ok(serde_json::to_string(a).unwrap()),  // same deal
+                serde_json::Value::Object(o) => serde_json::to_string(o).map_err(|e| {
+                    BadContentSchema(format!("Failed to serialize JSON object: {}", e).into())
+                }),
+                serde_json::Value::Array(a) => serde_json::to_string(a).map_err(|e| {
+                    BadContentSchema(format!("Failed to serialize JSON array: {}", e).into())
+                }),
             },
             None => Err(BadContentSchema(
                 format!("Field '{}' not found in JSON response", field_name).into(),
