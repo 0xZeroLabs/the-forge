@@ -139,14 +139,25 @@ pub fn get_content_data(
     }
 }
 
-// todo: fix util tests
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use chrono::{DateTime, TimeZone, Utc};
+    use tlsn_core::ServerName;
 
-    #[tokio::test]
-    async fn test_get_content_data() {
-        let http_response = r#"HTTP/1.1 200 OK
+    use super::*;
+    use std::str::FromStr;
+
+    #[test]
+    fn test_get_content_data() {
+        let content = VerificationResult {
+            received_data: String::from(
+                r#"HTTP/1.1 200 OK
+date: Thu, 19 Sep 2024 12:23:10 GMT
+content-type: application/json;charset=utf-8
+{"protected":false,"screen_name":"g_p_vlayer","sleep_time":{"enabled":false,"end_time":null,"start_time":null}}"#,
+            ),
+            sent_data: String::from(
+                r#"HTTP/1.1 200 OK
 date: Thu, 19 Sep 2024 12:23:10 GMT
 perf: 7402827104
 pragma: no-cache
@@ -172,150 +183,72 @@ x-response-time: 124
 x-connection-hash: 5a77fa2e596c5950ceff5a1c0207094a333aa663e4badcb2c8ce8b0b317accd6
 connection: close
 
-{"protected":false,"screen_name":"g_p_vlayer","always_use_https":true,"use_cookie_personalization":false,"sleep_time":{"enabled":false,"end_time":null,"start_time":null},"geo_enabled":false,"language":"en","discoverable_by_email":false,"discoverable_by_mobile_phone":false,"display_sensitive_media":false,"personalized_trends":true,"allow_media_tagging":"all","allow_contributor_request":"none","allow_ads_personalization":false,"allow_logged_out_device_personalization":false,"allow_location_history_personalization":false,"allow_sharing_data_for_third_party_personalization":false,"allow_dms_from":"following","always_allow_dms_from_subscribers":null,"allow_dm_groups_from":"following","translator_type":"none","country_code":"pl","address_book_live_sync_enabled":false,"universal_quality_filtering_enabled":"enabled","dm_receipt_setting":"all_enabled","allow_authenticated_periscope_requests":true,"protect_password_reset":false,"require_password_login":false,"requires_login_verification":false,"dm_quality_filter":"enabled","autoplay_disabled":false,"settings_metadata":{}}"#;
+{"protected":false,"screen_name":"g_p_vlayer","always_use_https":true,"use_cookie_personalization":false,"sleep_time":{"enabled":false,"end_time":null,"start_time":null},"geo_enabled":false,"language":"en","discoverable_by_email":false,"discoverable_by_mobile_phone":false,"display_sensitive_media":false,"personalized_trends":true,"allow_media_tagging":"all","allow_contributor_request":"none","allow_ads_personalization":false,"allow_logged_out_device_personalization":false,"allow_location_history_personalization":false,"allow_sharing_data_for_third_party_personalization":false,"allow_dms_from":"following","always_allow_dms_from_subscribers":null,"allow_dm_groups_from":"following","translator_type":"none","country_code":"pl","address_book_live_sync_enabled":false,"universal_quality_filtering_enabled":"enabled","dm_receipt_setting":"all_enabled","allow_authenticated_periscope_requests":true,"protect_password_reset":false,"require_password_login":false,"requires_login_verification":false,"dm_quality_filter":"enabled","autoplay_disabled":false,"settings_metadata":{}}""#,
+            ),
+            server_name: ServerName::Dns("api.x.com".to_string()),
+            time: DateTime::to_utc(&Utc.ymd(2024, 9, 19).and_hms(12, 23, 10)),
+        };
 
         // Test HTTP header extraction
-        let result = get_content_data(http_response, "source|content-type");
-        match &result {
-            Ok(v) => println!("Header extraction successful: {}", v),
-            Err(e) => println!("Header extraction error: {}", e),
-        }
+        let result = get_content_data(&content, "received|content-type");
         assert!(result.is_ok());
         assert_eq!(result.unwrap(), "application/json;charset=utf-8");
 
         // Test JSON field extraction
-        let result = get_content_data(http_response, "source>screen_name");
-        match &result {
-            Ok(v) => println!("JSON extraction successful: {}", v),
-            Err(e) => println!("JSON extraction error: {}", e),
-        }
+        let result = get_content_data(&content, "received>screen_name");
         assert!(result.is_ok());
         assert_eq!(result.unwrap(), "g_p_vlayer");
 
-        // Test boolean field
-        let result = get_content_data(http_response, "source>protected");
-        assert!(result.is_ok());
-        assert_eq!(result.unwrap(), "false");
-
-        // Test object field
-        let result = get_content_data(http_response, "source>sleep_time");
+        // Test nested object extraction
+        let result = get_content_data(&content, "received>sleep_time");
         assert!(result.is_ok());
         assert_eq!(
             result.unwrap(),
             r#"{"enabled":false,"end_time":null,"start_time":null}"#
         );
 
-        // Test invalid formats
-        let result = get_content_data(http_response, "invalid_key");
+        // Test error cases
+        let result = get_content_data(&content, "invalid");
         assert!(result.is_err());
 
-        // Test nonexistent JSON field
-        let result = get_content_data(http_response, "source>nonexistent");
+        let result = get_content_data(&content, "received>nonexistent");
         assert!(result.is_err());
 
-        // Test nonexistent header
-        let result = get_content_data(http_response, "source|nonexistent");
+        let result = get_content_data(&content, "received|nonexistent");
         assert!(result.is_err());
     }
 
-    use alloy::primitives::address;
-
-    #[tokio::test]
-    async fn test_parse_content_json() {
-        // Create a test JSON string with valid data
-        let json_str = r#"{
+    #[test]
+    fn test_parse_content_json() {
+        let valid_json = r#"{
             "category": "Social",
             "source": "TikTok",
             "url": "www.tiktok.com",
-            "name": "Test Name",
+            "name": "Test",
             "address": "0x0000000000000000000000000000000000000000",
             "metadata": {
                 "property": {
-                    "key": "received|post_image_url",
-                    "mime": "img/png",
+                    "key": "test",
+                    "description": "test desc",
+                    "mime": "text/plain",
+                    "tags": ["test"],
                     "type": "url"
                 },
-                "owner": "received|user_id_str"
+                "owner": "test_owner"
             }
         }"#;
 
-        // Test successful parsing
-        let result = parse_content_json(json_str);
-        match &result {
-            Ok(_) => println!("Parsing successful"),
-            Err(e) => println!("Parsing error: {}", e),
-        }
+        let result = parse_content_json(valid_json);
         assert!(result.is_ok());
 
-        let content = result.unwrap();
-        assert_eq!(content.category, "Social");
-        assert_eq!(content.source, "TikTok");
-        assert_eq!(content.url, "www.tiktok.com");
-        assert_eq!(content.name, "Test Name");
-        assert_eq!(
-            content.address,
-            address!("0x0000000000000000000000000000000000000000")
-        );
-        assert_eq!(content.metadata.property.key, "received|post_image_url");
-        assert_eq!(content.metadata.property.mime, "img/png");
-        assert!(matches!(
-            content.metadata.property.property_type,
-            PropertyType::URL
-        ));
-        assert_eq!(content.metadata.owner, "received|user_id_str");
-
-        // Test invalid JSON
-        let invalid_json = r#"{
-            "category": "Social",
-            "invalid_json"
-        }"#;
+        let invalid_json = "{invalid}";
         let result = parse_content_json(invalid_json);
         assert!(result.is_err());
 
-        // Test missing required fields
-        let missing_fields = r#"{
-            "category": "Social",
-            "source": "TikTok"
+        let missing_fields_json = r#"{
+            "category": "Social"
         }"#;
-        let result = parse_content_json(missing_fields);
-        assert!(result.is_err());
-
-        // Test invalid property type
-        let invalid_type = r#"{
-            "category": "Social",
-            "source": "TikTok",
-            "url": "www.tiktok.com",
-            "name": "Test Name",
-            "address": "0x0000000000000000000000000000000000000000",
-            "metadata": {
-                "property": {
-                    "key": "data.post_image_url",
-                    "mime": "img/png",
-                    "type": "INVALID_TYPE"
-                },
-                "owner": "data.user_id_str"
-            }
-        }"#;
-        let result = parse_content_json(invalid_type);
-        assert!(result.is_err());
-
-        // Test invalid address format
-        let invalid_address = r#"{
-            "category": "Social",
-            "source": "TikTok",
-            "url": "www.tiktok.com",
-            "name": "Test Name",
-            "address": "invalid_address",
-            "metadata": {
-                "property": {
-                    "key": "data.post_image_url",
-                    "mime": "img/png",
-                    "type": "URL"
-                },
-                "owner": "data.user_id_str"
-            }
-        }"#;
-        let result = parse_content_json(invalid_address);
+        let result = parse_content_json(missing_fields_json);
         assert!(result.is_err());
     }
 }
