@@ -1,7 +1,7 @@
 <br>
 
 <p align="center">
-  <img src="./assets/medieval-100.png" width="100" alt="0xzero.org" />
+  <img src=./assets/20250120_084706.png" width="100" alt="0xzero.org" />
 </p>
 <br>
 
