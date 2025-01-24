@@ -173,7 +173,7 @@ pub async fn register_ip_from_transcript(
     let (ipameta, nftmeta, ipameta_url, nftmeta_url) =
         create_and_upload_metadata(&content, &file_url, &transcript).await?;
 
-    let reg_ip = registrar::register_ip(
+    let regip = registrar::register_ip(
         content.address,
         content.name,
         ipameta_url,
@@ -184,8 +184,8 @@ pub async fn register_ip_from_transcript(
     .await
     .map_err(|e| MainProcessError::BadRequest(e.to_string()))?; // define custom error type
 
-    let ip_id = reg_ip;
-    Ok((StatusCode::OK, format!(r#"{{ "ip_id": "{:?}" }}"#, ip_id)))
+    let ipid = regip.ipid;
+    Ok((StatusCode::OK, format!(r#"{{ "ipid": "{:?}" }}"#, ipid)))
 }
 
 fn verify(pre_image: Input) -> Result<VerificationResult, Box<dyn Error>> {

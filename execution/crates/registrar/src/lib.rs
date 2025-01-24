@@ -2,6 +2,11 @@ use alloy::{primitives::Address, providers::ProviderBuilder, rpc::types::Transac
 use eyre::Result;
 use IPARegistrar::IPMetadata;
 
+pub struct IPData {
+    pub ipid: Address,
+    pub hash: FixedBytes<32>,
+}
+
 sol!(
     #[allow(missing_docs)]
     #[sol(rpc)]
@@ -16,7 +21,7 @@ pub async fn register_ip(
     ip_metadata: String,
     nft_metadata_uri: String,
     nft_metadata: String,
-) -> Result<TransactionReceipt> {
+) -> Result<IPData> {
     let rpc_url = "https://rpc.odyssey.storyrpc.io".parse()?;
 
     let provider = ProviderBuilder::new().on_http(rpc_url);
