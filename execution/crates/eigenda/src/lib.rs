@@ -79,6 +79,28 @@ pub async fn publish_blob(d: String) -> Result<(Vec<u8>, u32), Box<dyn std::erro
     Ok((batch_header_hash, blob_index))
 }
 
+pub async fn retrieve_blob(
+    batch_header_hash: Vec<u8>,
+    blob_index: u32,
+) -> Result<String, Box<dyn std::error::Error>> {
+    Ok(tokio::runtime::Runtime::new().unwrap().block_on(async {
+        let endpoint = "https://disperser-preprod-holesky.eigenda.xyz:443";
+        let mut client = DisperserClient::connect(endpoint).await.unwrap();
+
+        let request = tonic::Request::new(RetrieveBlobRequest {
+            batch_header_hash,
+            blob_index,
+        });
+
+        let response = client.retrieve_blob(request).await;
+        if response.is_ok() {
+            String::from_utf8(response.into_inner().data).unwrap()
+        } else {
+            Err(response.err())
+        }
+    }))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -93,18 +115,9 @@ mod tests {
             });
 
         // Now we have batch_header_hash and blob_index to retrieve the blob
-        let result = tokio::runtime::Runtime::new().unwrap().block_on(async {
-            let endpoint = "https://disperser-preprod-holesky.eigenda.xyz:443";
-            let mut client = DisperserClient::connect(endpoint).await.unwrap();
-
-            let request = tonic::Request::new(RetrieveBlobRequest {
-                batch_header_hash,
-                blob_index,
-            });
-
-            let response = client.retrieve_blob(request).await.unwrap();
-            String::from_utf8(response.into_inner().data).unwrap()
-        });
+        let result = tokio::runtime::Runtime::new()
+            .unwrap()
+            .block_on(async { retrieve_blob(batch_header_hash, blob_index).await.unwrap() });
 
         assert_eq!(result, original);
     }
