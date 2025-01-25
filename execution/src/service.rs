@@ -69,7 +69,7 @@ async fn upload_file_to_ipfs(
         PropertyType::File => {
             pinata::upload_file_from_url(pinata::FileUploadParams {
                 file_url: get_content_data(transcript, &content.metadata.property.key).unwrap(),
-                file_name: "".to_string(),
+                file_name: content.metadata.property.key.clone(),
                 file_type: content.metadata.property.mime.clone(),
             })
             .await
