@@ -22,7 +22,7 @@
 
 # The Forge ⚒
 
-The Forge is an AVS built on [EigenLayer](https://eigenlayer.xyz) through the [Othentic](https://othentic.xyz) stack, designed to verifiably register any IP on Story Protocol unleashing access to unlimited IP.
+The Forge is an AVS built on [EigenLayer](https://eigenlayer.xyz) through the [Othentic](https://othentic.xyz) stack, designed to verifiably register web2 data as IP on Story Protocol unleashing access to infinite IP.
 
 # 🎯 Grand Plan
 
