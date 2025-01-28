@@ -8,6 +8,7 @@ use alloy::{
     sol,
     sol_types::SolCall,
 };
+use dotenvy::dotenv;
 use eyre::Result;
 use IPARegistrar::IPMetadata;
 
@@ -31,9 +32,13 @@ pub async fn register_ip(
     nft_metadata_uri: String,
     nft_metadata: String,
 ) -> Result<IPData> {
+    dotenv().map_err(|e| format!("Failed to read .env file: {}", e));
+    let private_key = std::env::var("PRIVATE_KEY")
+        .map_err(|e| format!("Failed to get PRIVATE_KEY: {}", e))
+        .unwrap();
     let rpc_url = "https://rpc.odyssey.storyrpc.io".parse()?;
 
-    let signer: PrivateKeySigner = "<PRIVATE_KEY>".parse().expect("should parse private key");
+    let signer: PrivateKeySigner = private_key.parse().expect("should parse private key");
     let wallet = EthereumWallet::from(signer.clone());
 
     let provider = ProviderBuilder::new()
@@ -86,11 +91,8 @@ pub async fn register_ip(
     // b) Make a separate view call to get the IPID if the contract provides a getter
     // For now, we'll use a view call right after the transaction
     // Get the return value and extract the address from it
-    let register_return = contract
-        .register(address, imetadata.clone())
-        .call()
-        .await?;
-    
+    let register_return = contract.register(address, imetadata.clone()).call().await?;
+
     // The register function returns a tuple with one field (the address)
     // We need to extract that address
     let ipid = register_return._0;
