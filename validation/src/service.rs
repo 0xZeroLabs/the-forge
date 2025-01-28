@@ -2,7 +2,7 @@ use execution::utils::Input;
 use std::error::Error;
 use verifier::{verify_proof_from_json, VerificationResult};
 
-fn verify_ip_from_proof() {}
+pub async fn verify_ip_from_proof() {}
 
 fn verify(pre_image: Input) -> Result<VerificationResult, Box<dyn Error>> {
     let result = verify_proof_from_json(pre_image.transcript_proof.as_str())?;
