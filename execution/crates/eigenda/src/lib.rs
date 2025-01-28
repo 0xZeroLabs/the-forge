@@ -9,7 +9,9 @@ mod common {
 use std::time::Duration;
 
 use disperser::disperser_client::DisperserClient;
-use disperser::{BlobStatus, BlobStatusReply, BlobStatusRequest, DisperseBlobRequest};
+use disperser::{
+    BlobStatus, BlobStatusReply, BlobStatusRequest, DisperseBlobRequest, RetrieveBlobRequest,
+};
 
 pub async fn publish_blob(d: String) -> Result<(Vec<u8>, u32), Box<dyn std::error::Error>> {
     let endpoint = "https://disperser-preprod-holesky.eigenda.xyz:443";
@@ -83,22 +85,20 @@ pub async fn retrieve_blob(
     batch_header_hash: Vec<u8>,
     blob_index: u32,
 ) -> Result<String, Box<dyn std::error::Error>> {
-    Ok(tokio::runtime::Runtime::new().unwrap().block_on(async {
-        let endpoint = "https://disperser-preprod-holesky.eigenda.xyz:443";
-        let mut client = DisperserClient::connect(endpoint).await.unwrap();
+    let endpoint = "https://disperser-preprod-holesky.eigenda.xyz:443";
+    let mut client = DisperserClient::connect(endpoint).await.unwrap();
 
-        let request = tonic::Request::new(RetrieveBlobRequest {
-            batch_header_hash,
-            blob_index,
-        });
+    let request = tonic::Request::new(RetrieveBlobRequest {
+        batch_header_hash,
+        blob_index,
+    });
 
-        let response = client.retrieve_blob(request).await;
-        if response.is_ok() {
-            String::from_utf8(response.into_inner().data).unwrap()
-        } else {
-            Err(response.err())
-        }
-    }))
+    let response = client.retrieve_blob(request).await;
+    if response.is_ok() == true {
+        Ok(String::from_utf8(response.unwrap().into_inner().data).unwrap())
+    } else {
+        Err("Failed to retrieve blob value".into())
+    }
 }
 
 #[cfg(test)]
