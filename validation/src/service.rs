@@ -1,3 +1,4 @@
+use execution::utils::Input;
 use std::error::Error;
 use verifier::{verify_proof_from_json, VerificationResult};
 
