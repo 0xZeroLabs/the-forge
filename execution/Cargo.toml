@@ -7,6 +7,10 @@ name = "execution"
 version = "0.1.0"
 edition = "2021"
 
+[lib]
+name = "execution"
+path = "src/lib.rs"
+
 [workspace.dependencies]
 tlsn-core = { git = "https://github.com/tlsnotary/tlsn.git", tag = "v0.1.0-alpha.5", package = "tlsn-core" }
 elliptic-curve = {version = "0.13.5", features = ["pkcs8"]}
@@ -20,6 +24,7 @@ irys = { path = "crates/irys" }
 eigenda = { path = "crates/eigenda"}
 pinata = { path = "crates/pinata" }
 registrar = { path = "crates/registrar" }
+othentic = { path = "crates/othentic" }
 axum = "0.7.9"
 eyre="0.6.2"
 serde = { version = "1.0.147", features = ["derive"] }
