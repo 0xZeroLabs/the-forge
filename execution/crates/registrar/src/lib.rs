@@ -33,6 +33,7 @@ pub async fn register_ip(
     nft_metadata: String,
 ) -> Result<IPData> {
     dotenv().map_err(|e| format!("Failed to read .env file: {}", e));
+    let _ = dotenv().map_err(|e| format!("Failed to read .env file: {}", e));
     let private_key = std::env::var("PRIVATE_KEY")
         .map_err(|e| format!("Failed to get PRIVATE_KEY: {}", e))
         .unwrap();
