@@ -4,6 +4,7 @@ use alloy::{
     network::EthereumWallet,
     primitives::{Address, FixedBytes},
     providers::{Provider, ProviderBuilder},
+    rpc::types::{Log, TransactionReceipt},
     signers::local::PrivateKeySigner,
     sol,
     sol_types::SolCall,
@@ -32,7 +33,6 @@ pub async fn register_ip(
     nft_metadata_uri: String,
     nft_metadata: String,
 ) -> Result<IPData> {
-    dotenv().map_err(|e| format!("Failed to read .env file: {}", e));
     let _ = dotenv().map_err(|e| format!("Failed to read .env file: {}", e));
     let private_key = std::env::var("PRIVATE_KEY")
         .map_err(|e| format!("Failed to get PRIVATE_KEY: {}", e))
@@ -102,4 +102,17 @@ pub async fn register_ip(
         ipid,
         hash: tx_hash,
     })
+}
+
+pub async fn get_transaction_receipt(hash: FixedBytes<32>) -> Result<TransactionReceipt> {
+    let rpc_url = "https://rpc.odyssey.storyrpc.io".parse()?;
+
+    let provider = ProviderBuilder::new().on_http(rpc_url);
+
+    let tx_receipt = provider
+        .get_transaction_receipt(hash)
+        .await?
+        .ok_or_else(|| eyre::eyre!("Receipt not found"))?;
+
+    Ok(tx_receipt)
 }
