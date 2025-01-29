@@ -27,3 +27,5 @@ execution = { git = "https://github.com/0xZeroLabs/the-forge", package = "execut
 eigenda = { git = "https://github.com/0xZeroLabs/the-forge", package = "eigenda", branch = "main" }
 verifier = { git = "https://github.com/0xZeroLabs/the-forge", package = "verifier", branch = "main" }
 tlsn-core = { git = "https://github.com/tlsnotary/tlsn.git", tag = "v0.1.0-alpha.5", package = "tlsn-core" }
+registrar = { git = "https://github.com/0xZeroLabs/the-forge", package = "registrar", branch = "main" }
+alloy-primitives = "0.8"
