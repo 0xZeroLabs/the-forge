@@ -114,6 +114,8 @@ mod tests {
                 publish_blob(original.to_string()).await.unwrap()
             });
 
+        println!("Batch header hash: {}", hex::encode(&batch_header_hash));
+        println!("Blob index: {}", blob_index.clone());
         // Now we have batch_header_hash and blob_index to retrieve the blob
         let result = tokio::runtime::Runtime::new()
             .unwrap()
