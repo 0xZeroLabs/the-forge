@@ -31,9 +31,7 @@ pub async fn verify_ip_from_proof(
     let verification_result = verify(Input {
         transcript_proof: proof.transcript_proof,
     })
-    .map_err(|_| {
-        MainProcessError::BadTranscriptProof("Transcript proof is invalid".to_string())
-    }?);
+    .map_err(|_| MainProcessError::BadTranscriptProof("Transcript proof is invalid".to_string()));
 
     let tx_receipt = get_transaction_receipt(proof.transaction_hash).await?;
 
