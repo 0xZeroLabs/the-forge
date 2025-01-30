@@ -13,6 +13,8 @@ use disperser::{
     BlobStatus, BlobStatusReply, BlobStatusRequest, DisperseBlobRequest, RetrieveBlobRequest,
 };
 
+/// Publishes a blob to the Disperser.
+/// Returns the batch header hash and blob index.
 pub async fn publish_blob(d: String) -> Result<(Vec<u8>, u32), Box<dyn std::error::Error>> {
     let endpoint = "https://disperser-holesky.eigenda.xyz:443";
     let mut client = DisperserClient::connect(endpoint).await.unwrap();
@@ -81,6 +83,8 @@ pub async fn publish_blob(d: String) -> Result<(Vec<u8>, u32), Box<dyn std::erro
     Ok((batch_header_hash, blob_index))
 }
 
+/// Retrieves a blob from the Disperser.
+/// Returns the blob data as a string.
 pub async fn retrieve_blob(
     batch_header_hash: Vec<u8>,
     blob_index: u32,
