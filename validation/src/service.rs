@@ -2,7 +2,7 @@ use alloy_primitives::FixedBytes;
 use axum::{response::IntoResponse, Json};
 use eigenda::retrieve_blob;
 use execution::utils::Input;
-use register::get_transaction_receipt;
+use registrar::get_transaction_receipt;
 use serde::{Deserialize, Serialize};
 use std::error::Error;
 use verifier::{verify_proof_from_json, VerificationResult};
@@ -12,7 +12,7 @@ use crate::error::MainProcessError;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Proofs {
     pub transcript_proof: String,
-    pub transaction_hash: FixedByte<32>,
+    pub transaction_hash: FixedBytes<32>,
 }
 
 #[derive(Deserialize)]
