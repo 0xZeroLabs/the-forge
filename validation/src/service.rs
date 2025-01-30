@@ -10,7 +10,7 @@ use verifier::{verify_proof_from_json, VerificationResult};
 use crate::error::MainProcessError;
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct Proofs {
+pub struct ProofofTask {
     pub transcript_proof: String,
     pub transaction_hash: FixedBytes<32>,
 }
@@ -19,7 +19,7 @@ pub async fn verify_ip_from_proof(
     Json(mut body): Json<String>,
 ) -> Result<impl IntoResponse, MainProcessError> {
     let proof_of_task = retrieve_blob(body).await.unwrap();
-    let proof = serde_json::from_str::<Proofs>(&proof_of_task).unwrap();
+    let proof = serde_json::from_str::<ProofofTask>(&proof_of_task).unwrap();
 
     let verification_result = verify(Input {
         transcript_proof: proof.transcript_proof,
