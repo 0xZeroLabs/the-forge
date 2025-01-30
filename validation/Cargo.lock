@@ -2140,7 +2140,7 @@ dependencies = [
 [[package]]
 name = "eigenda"
 version = "0.1.0"
-source = "git+https://github.com/0xZeroLabs/the-forge?branch=main#ca72a2c5c1cc3033844f17df991686925a1cccdf"
+source = "git+https://github.com/0xZeroLabs/the-forge?branch=main#c7ee64fa4b9a9071d7d09ba2966b14bac9fc6670"
 dependencies = [
  "base64 0.13.1",
  "hex",
@@ -2249,7 +2249,7 @@ dependencies = [
 [[package]]
 name = "execution"
 version = "0.1.0"
-source = "git+https://github.com/0xZeroLabs/the-forge?branch=main#ca72a2c5c1cc3033844f17df991686925a1cccdf"
+source = "git+https://github.com/0xZeroLabs/the-forge?branch=main#c7ee64fa4b9a9071d7d09ba2966b14bac9fc6670"
 dependencies = [
  "alloy",
  "axum 0.7.9",
@@ -3226,7 +3226,7 @@ checksum = "469fb0b9cefa57e3ef31275ee7cacb78f2fdca44e4765491884a2b119d4eb130"
 [[package]]
 name = "irys"
 version = "0.1.0"
-source = "git+https://github.com/0xZeroLabs/the-forge?branch=main#ca72a2c5c1cc3033844f17df991686925a1cccdf"
+source = "git+https://github.com/0xZeroLabs/the-forge?branch=main#c7ee64fa4b9a9071d7d09ba2966b14bac9fc6670"
 dependencies = [
  "bundlr-sdk",
  "reqwest 0.11.27",
@@ -3846,7 +3846,7 @@ dependencies = [
 [[package]]
 name = "othentic"
 version = "0.1.0"
-source = "git+https://github.com/0xZeroLabs/the-forge?branch=main#ca72a2c5c1cc3033844f17df991686925a1cccdf"
+source = "git+https://github.com/0xZeroLabs/the-forge?branch=main#c7ee64fa4b9a9071d7d09ba2966b14bac9fc6670"
 dependencies = [
  "alloy",
  "alloy-signer 0.8.3",
@@ -4023,7 +4023,7 @@ checksum = "8b870d8c151b6f2fb93e84a13146138f05d02ed11c7e7c54f8826aaaf7c9f184"
 [[package]]
 name = "pinata"
 version = "0.1.0"
-source = "git+https://github.com/0xZeroLabs/the-forge?branch=main#ca72a2c5c1cc3033844f17df991686925a1cccdf"
+source = "git+https://github.com/0xZeroLabs/the-forge?branch=main#c7ee64fa4b9a9071d7d09ba2966b14bac9fc6670"
 dependencies = [
  "dotenvy",
  "reqwest 0.11.27",
@@ -4487,7 +4487,7 @@ checksum = "2b15c43186be67a4fd63bee50d0303afffcef381492ebe2c5d87f324e1b8815c"
 [[package]]
 name = "registrar"
 version = "0.1.0"
-source = "git+https://github.com/0xZeroLabs/the-forge?branch=main#ca72a2c5c1cc3033844f17df991686925a1cccdf"
+source = "git+https://github.com/0xZeroLabs/the-forge?branch=main#c7ee64fa4b9a9071d7d09ba2966b14bac9fc6670"
 dependencies = [
  "alloy",
  "dotenvy",
@@ -6189,7 +6189,7 @@ checksum = "accd4ea62f7bb7a82fe23066fb0957d48ef677f6eeb8215f372f52e48bb32426"
 [[package]]
 name = "verifier"
 version = "0.1.0"
-source = "git+https://github.com/0xZeroLabs/the-forge?branch=main#ca72a2c5c1cc3033844f17df991686925a1cccdf"
+source = "git+https://github.com/0xZeroLabs/the-forge?branch=main#c7ee64fa4b9a9071d7d09ba2966b14bac9fc6670"
 dependencies = [
  "chrono",
  "elliptic-curve",
