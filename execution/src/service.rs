@@ -4,8 +4,10 @@ use std::str::FromStr;
 use crate::error::MainProcessError;
 use crate::utils::{get_content_data, parse_content_json, ContentSchema, Input, PropertyType};
 
-use alloy::primitives::Address;
+use alloy::primitives::{Address, FixedBytes};
 use axum::{http::StatusCode, response::IntoResponse, Json};
+use eigenda_adapter::publish_blob;
+use othentic::send_task;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use verifier::{verify_proof_from_json, VerificationResult};
@@ -59,6 +61,13 @@ struct NFTMeta {
     animation_url: Option<String>,
     audio_url: Option<String>,
     text_content: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ProofofTask {
+    pub transcript_proof: String,
+    pub transaction_hash: FixedBytes<32>,
+    pub ip_id: Address,
 }
 
 async fn upload_file_to_ipfs(
@@ -157,7 +166,7 @@ pub async fn register_ip_from_transcript(
     let content = parse_content_json(body.schema.as_str()).unwrap();
 
     let transcript = verify(Input {
-        transcript_proof: body.transcript_proof,
+        transcript_proof: body.transcript_proof.clone(),
     })
     .map_err(|_| {
         MainProcessError::BadTranscriptProof("Transcript verification failed".to_string())
@@ -182,10 +191,19 @@ pub async fn register_ip_from_transcript(
         nftmeta,
     )
     .await
-    .map_err(|e| MainProcessError::BadRequest(e.to_string()))?; // define custom error type
+    .map_err(|e| MainProcessError::BadRequest(e.to_string()))?;
 
-    let ipid = regip.ipid;
-    Ok((StatusCode::OK, format!(r#"{{ "ipid": "{:?}" }}"#, ipid)))
+    let proof = ProofofTask {
+        transcript_proof: body.transcript_proof,
+        transaction_hash: regip.hash,
+        ip_id: regip.ipid,
+    };
+    let req_id = publish_blob(format!("00{}", serde_json::to_string(&proof).unwrap()))
+        .await
+        .unwrap();
+    send_task(req_id, "".to_string(), 0).await.unwrap();
+
+    Ok((StatusCode::OK, serde_json::to_string(&proof).unwrap()))
 }
 
 fn verify(pre_image: Input) -> Result<VerificationResult, Box<dyn Error>> {
