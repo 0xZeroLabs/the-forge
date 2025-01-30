@@ -22,7 +22,7 @@ pub struct ProofofTask {
 }
 
 pub async fn verify_ip_from_proof(
-    Json(body): Json<String>,
+    Json(mut body): Json<String>,
 ) -> Result<impl IntoResponse, MainProcessError> {
     let body = serde_json::from_str::<ProofofTask>(&body.split_off(2)).unwrap();
     let proof_of_task = retrieve_blob(body.header_hash, body.blob_id).await.unwrap();
