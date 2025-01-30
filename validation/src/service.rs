@@ -1,4 +1,4 @@
-use alloy_primitives::FixedBytes;
+use alloy_primitives::{Address, FixedBytes};
 use axum::{response::IntoResponse, Json};
 use eigenda::retrieve_blob;
 use execution::utils::Input;
@@ -13,6 +13,7 @@ use crate::error::MainProcessError;
 pub struct ProofofTask {
     pub transcript_proof: String,
     pub transaction_hash: FixedBytes<32>,
+    pub ip_id: Address,
 }
 
 pub async fn verify_ip_from_proof(
