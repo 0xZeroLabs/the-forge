@@ -15,17 +15,10 @@ pub struct Proofs {
     pub transaction_hash: FixedBytes<32>,
 }
 
-#[derive(Deserialize)]
-pub struct ProofofTask {
-    pub header_hash: Vec<u8>,
-    pub blob_id: u32,
-}
-
 pub async fn verify_ip_from_proof(
     Json(mut body): Json<String>,
 ) -> Result<impl IntoResponse, MainProcessError> {
-    let body = serde_json::from_str::<ProofofTask>(&body.split_off(2)).unwrap();
-    let proof_of_task = retrieve_blob(body.header_hash, body.blob_id).await.unwrap();
+    let proof_of_task = retrieve_blob(body).await.unwrap();
     let proof = serde_json::from_str::<Proofs>(&proof_of_task).unwrap();
 
     let verification_result = verify(Input {
