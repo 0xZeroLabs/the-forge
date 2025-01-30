@@ -14,7 +14,7 @@ use disperser::{
 };
 
 pub async fn publish_blob(d: String) -> Result<(Vec<u8>, u32), Box<dyn std::error::Error>> {
-    let endpoint = "https://disperser-preprod-holesky.eigenda.xyz:443";
+    let endpoint = "https://disperser-holesky.eigenda.xyz:443";
     let mut client = DisperserClient::connect(endpoint).await.unwrap();
 
     let data = d.as_bytes().to_vec();
