@@ -85,7 +85,7 @@ pub async fn retrieve_blob(
     batch_header_hash: Vec<u8>,
     blob_index: u32,
 ) -> Result<String, Box<dyn std::error::Error>> {
-    let endpoint = "https://disperser-preprod-holesky.eigenda.xyz:443";
+    let endpoint = "https://disperser-holesky.eigenda.xyz:443";
     let mut client = DisperserClient::connect(endpoint).await.unwrap();
 
     let request = tonic::Request::new(RetrieveBlobRequest {
