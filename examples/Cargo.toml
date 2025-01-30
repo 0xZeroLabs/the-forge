@@ -1,0 +1,16 @@
+[package]
+name = "forge-examples"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+
+
+[[example]]
+name = "lengthy-post"
+path = "twitter/lengthy_post.rs"
+
+[[example]]
+name = "image-post"
+path = "instagram/image_post.rs"
