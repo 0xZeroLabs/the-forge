@@ -120,3 +120,70 @@ pub async fn get_transaction_receipt(hash: FixedBytes<32>) -> Result<Transaction
 
     Ok(tx_receipt)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use alloy::primitives::address;
+    use alloy::providers::Provider;
+    use mockall::mock;
+    use mockall::predicate::*;
+
+    #[tokio::test]
+    async fn test_register_ip() {
+        // Set up test environment variables
+        std::env::set_var(
+            "PRIVATE_KEY",
+            "0x5837da14afbb1229eae18d07700b0e6ec2b6407384a08ef25fde3d55ea846962",
+        );
+        std::env::set_var(
+            "CONTRACT_ADDRESS",
+            "0xCf02ba0ed580f4184f70a9F430f1663597462011",
+        );
+
+        let address = Address::from_str("0x37ad3634C2fA851847d19256F42ec0eD5ad6e7b4").unwrap();
+        println!("address: {:?}", address);
+        let name = "Test IP".to_string();
+        let ip_metadata_uri =
+            "https://ipfs.io/ipfs/QmZHfQdFA2cb3ASdmeGS5K6rZjz65osUddYMURDx21bT73".to_string();
+        let ip_metadata = "{'title':'My IP Asset','description':'This is a test IP asset','ipType':'','relationships':[],'createdAt':'','watermarkImg':'https://picsum.photos/200','creators':[],'media':[],'attributes':[{'key':'Rarity','value':'Legendary'}],'tags':[]}".to_string();
+        let nft_metadata_uri =
+            "https://ipfs.io/ipfs/QmRL5PcK66J1mbtTZSw1nwVqrGxt98onStx6LgeHTDbEey".to_string();
+        let nft_metadata = "{'name':'Test NFT','description':'This is a test NFT','image':'https://picsum.photos/200'}".to_string();
+
+        // Add a pre-check to verify the contract
+        let rpc_url = "https://rpc.odyssey.storyrpc.io".parse().unwrap();
+        let provider = ProviderBuilder::new().on_http(rpc_url);
+
+        let code = provider.get_code_at(address).await.unwrap();
+        println!("Contract code exists: {}", !code.is_empty());
+
+        // Execute register_ip function
+        let result = register_ip(
+            address,
+            name,
+            ip_metadata_uri,
+            ip_metadata,
+            nft_metadata_uri,
+            nft_metadata,
+        )
+        .await;
+
+        // Assert the result
+        assert!(result.is_ok(), "register_ip should return Ok result");
+
+        if let Ok(ip_data) = result {
+            // Verify the returned data structure
+            assert_ne!(
+                ip_data.ipid,
+                Address::ZERO,
+                "IPID should not be zero address"
+            );
+            assert_ne!(
+                ip_data.hash,
+                FixedBytes::ZERO,
+                "Transaction hash should not be zero"
+            );
+        }
+    }
+}
