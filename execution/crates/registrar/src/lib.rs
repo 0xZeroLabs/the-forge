@@ -38,6 +38,10 @@ pub async fn register_ip(
         .map_err(|e| format!("Failed to get PRIVATE_KEY: {}", e))
         .unwrap();
     let rpc_url = "https://rpc.odyssey.storyrpc.io".parse()?;
+    let contract_address = std::env::var("CONTRACT_ADDRESS").map_err(|e| {
+        println!("Failed to get CONTRACT_ADDRESS: {}", e);
+        e
+    })?;
 
     let signer: PrivateKeySigner = private_key.parse().expect("should parse private key");
     let wallet = EthereumWallet::from(signer.clone());
@@ -47,7 +51,7 @@ pub async fn register_ip(
         .wallet(wallet)
         .on_http(rpc_url);
 
-    let contract = IPARegistrar::new(address, provider.clone());
+    let contract = IPARegistrar::new(Address::from_str(&contract_address)?, provider.clone());
 
     let imetadata = IPMetadata {
         name,
