@@ -9,7 +9,7 @@ name = "registrar"
 path = "src/lib.rs"
 
 [dependencies]
-alloy = { version = "0.9.0", features = ["full"] }
+alloy = { version = "0.11", features = ["full"] }
 eyre = "0.6.12"
 tokio = "1.42.0"
 dotenvy = "0.15.7"
