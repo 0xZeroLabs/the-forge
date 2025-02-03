@@ -201,7 +201,7 @@ pub async fn register_ip_from_transcript(
     let req_id = publish_blob(format!("00{}", serde_json::to_string(&proof).unwrap()))
         .await
         .unwrap();
-    send_task(req_id, "".to_string(), 0).await.unwrap();
+    send_task(req_id, 0).await.unwrap();
 
     Ok((StatusCode::OK, serde_json::to_string(&proof).unwrap()))
 }
