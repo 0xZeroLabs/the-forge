@@ -55,7 +55,7 @@ contract ForgeRegistrar {
                         mintFeeRecipient: owner,
                         owner: owner,
                         mintOpen: true,
-                        isPublicMinting: false
+                        isPublicMinting: true
                     })
                 )
             );
