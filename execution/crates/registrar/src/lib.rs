@@ -76,7 +76,6 @@ pub async fn register_ip(
     let tx = contract
         .register(address, imetadata.clone())
         .from(signer.address())
-        .gas(5000000)
         .send()
         .await
         .map_err(|e| {
