@@ -6,7 +6,7 @@ import {ISPGNFT} from "@storyprotocol/periphery/interfaces/ISPGNFT.sol";
 import {RegistrationWorkflows} from "@storyprotocol/periphery/workflows/RegistrationWorkflows.sol";
 import {WorkflowStructs} from "@storyprotocol/periphery/lib/WorkflowStructs.sol";
 
-contract IPARegistrar {
+contract ForgeRegistrar {
     IPAssetRegistry public immutable IP_ASSET_REGISTRY;
     RegistrationWorkflows public immutable REGISTRATION_WORKFLOWS;
 
@@ -19,6 +19,15 @@ contract IPARegistrar {
             registrationWorkflowsAddress
         );
     }
+
+    event IPRegistered(
+        address indexed ipId,
+        uint256 indexed tokenId,
+        address indexed owner,
+        string ipMetadataURI,
+        string nftMetadataURI,
+        string appId
+    );
 
     struct IPMetadata {
         string name;
@@ -37,7 +46,7 @@ contract IPARegistrar {
                 REGISTRATION_WORKFLOWS.createCollection(
                     ISPGNFT.InitParams({
                         name: name,
-                        symbol: "IPA",
+                        symbol: "ForgeIPA",
                         baseURI: "",
                         contractURI: "",
                         maxSupply: 100,
@@ -69,17 +78,26 @@ contract IPARegistrar {
     }
 
     function register(
-        address _address,
-        IPMetadata memory _ipMetadata
-    ) public returns (address) {
-        ISPGNFT spgNft = _createNFTCollection(_ipMetadata.name, _address);
+        address receiver,
+        IPMetadata memory _ipMetadata,
+        string memory appId
+    ) public returns (address ipId, uint256 tokenId, address owner) {
+        ISPGNFT spgNft = _createNFTCollection(_ipMetadata.name, receiver);
 
-        (address ipId, ) = REGISTRATION_WORKFLOWS.mintAndRegisterIp(
+        (ipId, tokenId) = REGISTRATION_WORKFLOWS.mintAndRegisterIp(
             address(spgNft),
-            _address,
+            receiver,
             _generateIPMetadata(_ipMetadata)
         );
+        owner = receiver;
 
-        return ipId;
+        emit IPRegistered(
+            ipId,
+            tokenId,
+            receiver,
+            _ipMetadata.ipMetadataURI,
+            _ipMetadata.nftMetadataURI,
+            appId
+        );
     }
 }
