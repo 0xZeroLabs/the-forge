@@ -2,10 +2,10 @@
 pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
-import {IPARegistrar} from "../src/IPARegistrar.sol";
+import {ForgeRegistrar} from "../src/ForgeRegistrar.sol";
 
-contract IPARegistrarScript is Script {
-    IPARegistrar public registrar;
+contract ForgeRegistrarScript is Script {
+    ForgeRegistrar public registrar;
 
     function setUp() public {}
 
@@ -20,13 +20,13 @@ contract IPARegistrarScript is Script {
 
         vm.startBroadcast();
 
-        registrar = new IPARegistrar(
+        registrar = new ForgeRegistrar(
             ipAssetRegistryAddress,
             registrationWorkflowsAddress
         );
 
         vm.stopBroadcast();
 
-        console.log("IPARegistrar deployed at:", address(registrar));
+        console.log("ForgeRegistrar deployed at:", address(registrar));
     }
 }

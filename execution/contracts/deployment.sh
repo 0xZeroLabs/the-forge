@@ -25,8 +25,8 @@ echo "Building project..."
 forge build
 
 # Run the deployment script
-echo "Deploying IPARegistrar..."
-forge script script/IPARegistrar.s.sol:IPARegistrarScript \
+echo "Deploying ForgeRegistrar..."
+forge script script/ForgeRegistrar.s.sol:ForgeRegistrarScript \
     --rpc-url $RPC_URL \
     --private-key $PRIVATE_KEY \
     --broadcast \
