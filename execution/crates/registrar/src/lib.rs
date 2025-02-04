@@ -1,18 +1,15 @@
 use alloy::{
-    consensus::Transaction,
-    hex,
     network::EthereumWallet,
     primitives::{Address, FixedBytes},
     providers::{Provider, ProviderBuilder},
-    rpc::types::{Log, TransactionReceipt},
     signers::local::PrivateKeySigner,
     sol,
-    sol_types::SolCall,
+    sol_types::SolEvent,
 };
 use dotenvy::dotenv;
 use eyre::Result;
 use std::str::FromStr;
-use ForgeRegistrar::IPMetadata;
+use ForgeRegistrar::{IPMetadata, IPRegistered};
 
 pub struct IPData {
     pub ipid: Address,
@@ -88,62 +85,43 @@ pub async fn register_ip(
         println!("Failed to get initial receipt: {}", e);
         e
     })?;
-    let tx_hash = receipt.transaction_hash;
 
-    let receipt = provider
-        .get_transaction_receipt(tx_hash)
-        .await
-        .map_err(|e| {
-            println!("Failed to get transaction receipt: {}", e);
-            e
-        })?
+    let hash = receipt.transaction_hash;
+    let logs = receipt.inner.logs();
+    let ip_data = logs
+        .iter()
+        .find_map(|log| IPRegistered::decode_log(log.as_ref(), true).ok())
         .ok_or_else(|| {
-            let err = eyre::eyre!("Receipt not found");
+            let err = eyre::eyre!("IPRegistered event not found in logs");
             println!("Error: {}", err);
             err
         })?;
 
-    let tx = provider
-        .get_transaction_by_hash(tx_hash)
-        .await
-        .map_err(|e| {
-            println!("Failed to get transaction: {}", e);
-            e
-        })?
-        .ok_or_else(|| {
-            let err = eyre::eyre!("Transaction not found");
-            println!("Error: {}", err);
-            err
-        })?;
+    let ipid = ip_data.ipId;
 
-    let register_return = contract
-        .register(address, imetadata.clone(), app_id.clone())
-        .call()
-        .await
-        .map_err(|e| {
-            println!("Failed to call register function: {}", e);
-            e
-        })?;
-
-    let ipid = register_return.ipId;
-
-    Ok(IPData {
-        ipid,
-        hash: tx_hash,
-    })
+    Ok(IPData { ipid, hash })
 }
 
-pub async fn get_transaction_receipt(hash: FixedBytes<32>) -> Result<TransactionReceipt> {
+pub async fn get_transaction_data(hash: FixedBytes<32>) -> Result<IPRegistered> {
     let rpc_url = "https://rpc.odyssey.storyrpc.io".parse()?;
 
     let provider = ProviderBuilder::new().on_http(rpc_url);
 
-    let tx_receipt = provider
+    let receipt = provider
         .get_transaction_receipt(hash)
         .await?
         .ok_or_else(|| eyre::eyre!("Receipt not found"))?;
-
-    Ok(tx_receipt)
+    let ip_data = receipt
+        .inner
+        .logs()
+        .iter()
+        .find_map(|log| IPRegistered::decode_log(log.as_ref(), true).ok())
+        .ok_or_else(|| {
+            let err = eyre::eyre!("IPRegistered event not found in logs");
+            println!("Error: {}", err);
+            err
+        })?;
+    Ok(ip_data.data)
 }
 
 #[cfg(test)]
@@ -199,6 +177,8 @@ mod tests {
         assert!(result.is_ok(), "register_ip should return Ok result");
 
         if let Ok(ip_data) = result {
+            println!("ip_data.ipid: {:?}", ip_data.ipid);
+            println!("ip_data.hash: {:?}", ip_data.hash);
             // Verify the returned data structure
             assert_ne!(
                 ip_data.ipid,
