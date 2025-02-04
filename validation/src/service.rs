@@ -82,6 +82,12 @@ pub async fn verify_ip_from_proof(
         ));
     }
 
+    if ip_data.ipId != proof.ip_id {
+        return Err(MainProcessError::WrongTransactionData(
+            "The IP ID doesn't match the one in the transcript proof".to_string(),
+        ));
+    }
+
     // Fetch metadata
     let ipameta = fetch_ipameta(&ip_data.ipMetadataURI).await?;
     let nftmeta = fetch_nftmeta(&ip_data.nftMetadataURI).await?;
