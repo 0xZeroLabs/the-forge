@@ -12,7 +12,7 @@ use alloy::{
 use dotenvy::dotenv;
 use eyre::Result;
 use std::str::FromStr;
-use IPARegistrar::IPMetadata;
+use ForgeRegistrar::IPMetadata;
 
 pub struct IPData {
     pub ipid: Address,
@@ -22,8 +22,8 @@ pub struct IPData {
 sol!(
     #[allow(missing_docs)]
     #[sol(rpc)]
-    IPARegistrar,
-    "fixture/abi/IPARegistrar.json"
+    ForgeRegistrar,
+    "fixture/abi/ForgeRegistrar.json"
 );
 
 pub async fn register_ip(
@@ -33,6 +33,7 @@ pub async fn register_ip(
     ip_metadata: String,
     nft_metadata_uri: String,
     nft_metadata: String,
+    app_id: String,
 ) -> Result<IPData> {
     let _ = dotenv().map_err(|e| {
         println!("Failed to read .env file: {}", e);
@@ -63,7 +64,7 @@ pub async fn register_ip(
 
     let provider = ProviderBuilder::new().wallet(wallet).on_http(rpc_url);
 
-    let contract = IPARegistrar::new(Address::from_str(&contract_address)?, provider.clone());
+    let contract = ForgeRegistrar::new(Address::from_str(&contract_address)?, provider.clone());
 
     let imetadata = IPMetadata {
         name,
@@ -74,7 +75,7 @@ pub async fn register_ip(
     };
 
     let tx = contract
-        .register(address, imetadata.clone())
+        .register(address, imetadata.clone(), app_id.clone())
         .from(signer.address())
         .send()
         .await
@@ -116,7 +117,7 @@ pub async fn register_ip(
         })?;
 
     let register_return = contract
-        .register(address, imetadata.clone())
+        .register(address, imetadata.clone(), app_id.clone())
         .call()
         .await
         .map_err(|e| {
@@ -124,7 +125,7 @@ pub async fn register_ip(
             e
         })?;
 
-    let ipid = register_return._0;
+    let ipid = register_return.ipId;
 
     Ok(IPData {
         ipid,
@@ -162,7 +163,7 @@ mod tests {
         );
         std::env::set_var(
             "CONTRACT_ADDRESS",
-            "0xCf02ba0ed580f4184f70a9F430f1663597462011",
+            "0x1763C69c900A3Bad8BBb476EF0A13e8bb2c2b75B",
         );
 
         let address = Address::from_str("0x37ad3634C2fA851847d19256F42ec0eD5ad6e7b4").unwrap();
@@ -190,6 +191,7 @@ mod tests {
             ip_metadata,
             nft_metadata_uri,
             nft_metadata,
+            "a1b2c3d4e5f6g7h8i9j0k1l2".to_string(),
         )
         .await;
 
