@@ -42,7 +42,7 @@ pub async fn register_ip(
         e
     })?;
 
-    let rpc_url = "https://rpc.odyssey.storyrpc.io".parse().map_err(|e| {
+    let rpc_url = std::env::var("STORY_RPC_URL").parse().map_err(|e| {
         println!("Failed to parse RPC URL: {}", e);
         e
     })?;
@@ -143,6 +143,7 @@ mod tests {
             "CONTRACT_ADDRESS",
             "0x1763C69c900A3Bad8BBb476EF0A13e8bb2c2b75B",
         );
+        std::env::set_var("STORY_RPC_URL", "https://aeneid.storyrpc.io");
 
         let address = Address::from_str("0x37ad3634C2fA851847d19256F42ec0eD5ad6e7b4").unwrap();
         println!("address: {:?}", address);
