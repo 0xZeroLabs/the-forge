@@ -9,7 +9,7 @@ use alloy::{
 use dotenvy::dotenv;
 use eyre::Result;
 use std::str::FromStr;
-use ForgeRegistrar::{IPMetadata, IPRegistered};
+use ForgeRegistry::{IPMetadata, IPRegistered};
 
 pub struct IPData {
     pub ipid: Address,
@@ -19,8 +19,8 @@ pub struct IPData {
 sol!(
     #[allow(missing_docs)]
     #[sol(rpc)]
-    ForgeRegistrar,
-    "fixture/abi/ForgeRegistrar.json"
+    ForgeRegistry,
+    "fixture/abi/ForgeRegistry.json"
 );
 
 pub async fn register_ip(
@@ -42,18 +42,26 @@ pub async fn register_ip(
         e
     })?;
 
-    let rpc_url = std::env::var("STORY_RPC_URL").parse().map_err(|e| {
-        println!("Failed to parse RPC URL: {}", e);
-        e
-    })?;
+    let rpc_url = std::env::var("STORY_RPC_URL")
+        .map_err(|e| {
+            println!("Failed to get RPC URL: {}", e);
+            e
+        })
+        .unwrap()
+        .parse()
+        .map_err(|e| {
+            print!("Failed to parse RPC URL: {}", e);
+            e
+        })?;
 
     let signer: PrivateKeySigner = private_key.parse().map_err(|e| {
         println!("Failed to parse private key: {}", e);
         e
     })?;
 
-    let contract_address = std::env::var("CONTRACT_ADDRESS").map_err(|e| {
-        println!("Failed to get CONTRACT_ADDRESS: {}", e);
+    // Use PROXY_ADDRESS instead of CONTRACT_ADDRESS
+    let proxy_address = std::env::var("PROXY_ADDRESS").map_err(|e| {
+        println!("Failed to get PROXY_ADDRESS: {}", e);
         e
     })?;
 
@@ -61,7 +69,21 @@ pub async fn register_ip(
 
     let provider = ProviderBuilder::new().wallet(wallet).on_http(rpc_url);
 
-    let contract = ForgeRegistrar::new(Address::from_str(&contract_address)?, provider.clone());
+    // Verify the proxy contract
+    let code = provider
+        .get_code_at(Address::from_str(&proxy_address)?)
+        .await
+        .map_err(|e| {
+            println!("Failed to verify proxy contract: {}", e);
+            e
+        })?;
+
+    if code.is_empty() {
+        return Err(eyre::eyre!("Proxy contract not found at specified address"));
+    }
+
+    // Initialize contract with proxy address
+    let contract = ForgeRegistry::new(Address::from_str(&proxy_address)?, provider.clone());
 
     let imetadata = IPMetadata {
         name,
@@ -140,10 +162,10 @@ mod tests {
             "0x5837da14afbb1229eae18d07700b0e6ec2b6407384a08ef25fde3d55ea846962",
         );
         std::env::set_var(
-            "CONTRACT_ADDRESS",
-            "0x1763C69c900A3Bad8BBb476EF0A13e8bb2c2b75B",
+            "PROXY_ADDRESS",
+            "0x58243BB6654D5BA260f5E833390E5b952447E8A3",
         );
-        std::env::set_var("STORY_RPC_URL", "https://aeneid.storyrpc.io");
+        std::env::set_var("STORY_RPC_URL", "https://odyssey.storyrpc.io");
 
         let address = Address::from_str("0x37ad3634C2fA851847d19256F42ec0eD5ad6e7b4").unwrap();
         println!("address: {:?}", address);
@@ -155,12 +177,16 @@ mod tests {
             "https://ipfs.io/ipfs/QmRL5PcK66J1mbtTZSw1nwVqrGxt98onStx6LgeHTDbEey".to_string();
         let nft_metadata = "{'name':'Test NFT','description':'This is a test NFT','image':'https://picsum.photos/200'}".to_string();
 
-        // Add a pre-check to verify the contract
+        // Add a pre-check to verify the proxy contract
         let rpc_url = "https://rpc.odyssey.storyrpc.io".parse().unwrap();
         let provider = ProviderBuilder::new().on_http(rpc_url);
 
-        let code = provider.get_code_at(address).await.unwrap();
-        println!("Contract code exists: {}", !code.is_empty());
+        let proxy_address = std::env::var("PROXY_ADDRESS").unwrap();
+        let code = provider
+            .get_code_at(Address::from_str(&proxy_address).unwrap())
+            .await
+            .unwrap();
+        println!("Proxy contract code exists: {}", !code.is_empty());
 
         // Execute register_ip function
         let result = register_ip(
