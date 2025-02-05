@@ -62,7 +62,7 @@ contract ForgeRegistry is Initializable, OwnableUpgradeable, UUPSUpgradeable {
                 REGISTRATION_WORKFLOWS.createCollection(
                     ISPGNFT.InitParams({
                         name: name,
-                        symbol: "ForgeIPA",
+                        symbol: "INGOT",
                         baseURI: "",
                         contractURI: "",
                         maxSupply: 100,
