@@ -1,32 +1,59 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
 import {ForgeRegistry} from "../src/ForgeRegistry.sol";
+import "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
-contract ForgeRegistryScript is Script {
-    ForgeRegistry public registrar;
+contract DeployForgeRegistry is Script {
+    function run() external {
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        address deployer = vm.addr(deployerPrivateKey);
+        vm.startBroadcast(deployerPrivateKey);
 
-    function setUp() public {}
+        ForgeRegistry implementation = new ForgeRegistry();
 
-    function run() public {
-        // Get deployment addresses from environment variables
-        address ipAssetRegistryAddress = vm.envAddress(
-            "IP_ASSET_REGISTRY_ADDRESS"
+        bytes memory data = abi.encodeWithSelector(
+            ForgeRegistry.initialize.selector,
+            vm.envAddress("IP_ASSET_REGISTRY_ADDRESS"),
+            vm.envAddress("REGISTRATION_WORKFLOWS_ADDRESS"),
+            deployer
         );
-        address registrationWorkflowsAddress = vm.envAddress(
-            "REGISTRATION_WORKFLOWS_ADDRESS"
-        );
 
-        vm.startBroadcast();
+        ERC1967Proxy proxy = new ERC1967Proxy(address(implementation), data);
 
-        registrar = new ForgeRegistry(
-            ipAssetRegistryAddress,
-            registrationWorkflowsAddress
+        ForgeRegistry(address(proxy));
+
+        vm.stopBroadcast();
+
+        console.log("Implementation deployed to:", address(implementation));
+        console.log("Proxy deployed to:", address(proxy));
+    }
+}
+
+contract UpgradeForgeRegistry is Script {
+    function run() external {
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        address proxyAddress = vm.envAddress("PROXY_ADDRESS");
+
+        vm.startBroadcast(deployerPrivateKey);
+
+        // Deploy new implementation
+        ForgeRegistry newImplementation = new ForgeRegistry();
+
+        // Upgrade
+        UUPSUpgradeable(proxyAddress).upgradeToAndCall(
+            address(newImplementation),
+            "" // No need to call initialize again
         );
 
         vm.stopBroadcast();
 
-        console.log("ForgeRegistry deployed at:", address(registrar));
+        console.log(
+            "New implementation deployed to:",
+            address(newImplementation)
+        );
+        console.log("Proxy upgraded at:", proxyAddress);
     }
 }

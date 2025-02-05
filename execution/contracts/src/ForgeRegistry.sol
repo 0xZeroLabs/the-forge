@@ -1,24 +1,40 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.26;
 
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import {IPAssetRegistry} from "@storyprotocol/core/registries/IPAssetRegistry.sol";
 import {ISPGNFT} from "@storyprotocol/periphery/interfaces/ISPGNFT.sol";
 import {RegistrationWorkflows} from "@storyprotocol/periphery/workflows/RegistrationWorkflows.sol";
 import {WorkflowStructs} from "@storyprotocol/periphery/lib/WorkflowStructs.sol";
 
-contract ForgeRegistry {
-    IPAssetRegistry public immutable IP_ASSET_REGISTRY;
-    RegistrationWorkflows public immutable REGISTRATION_WORKFLOWS;
+contract ForgeRegistry is Initializable, OwnableUpgradeable, UUPSUpgradeable {
+    IPAssetRegistry public IP_ASSET_REGISTRY;
+    RegistrationWorkflows public REGISTRATION_WORKFLOWS;
 
-    constructor(
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
+    }
+
+    function initialize(
         address ipAssetRegistryAddress,
-        address registrationWorkflowsAddress
-    ) {
+        address registrationWorkflowsAddress,
+        address owner
+    ) public initializer {
+        __Ownable_init(owner);
+        __UUPSUpgradeable_init();
+
         IP_ASSET_REGISTRY = IPAssetRegistry(ipAssetRegistryAddress);
         REGISTRATION_WORKFLOWS = RegistrationWorkflows(
             registrationWorkflowsAddress
         );
     }
+
+    function _authorizeUpgrade(
+        address newImplementation
+    ) internal override onlyOwner {}
 
     event IPRegistered(
         address indexed ipId,
