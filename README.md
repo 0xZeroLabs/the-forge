@@ -32,7 +32,7 @@ We're currently focused on achieving the following to get a working version of T
 - [x] IP registration in execution registrar via Alloy
 - [x] Transcript verification
 - [x] Metadata schema system (instructs registrar)
-- [ ] AVS validation service
+- [x] AVS validation service
 
 The following is currently on our roadmap but has a few technical overhead.
 
