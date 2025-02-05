@@ -189,6 +189,7 @@ pub async fn register_ip_from_transcript(
         ipameta,
         nftmeta_url,
         nftmeta,
+        content.app_id,
     )
     .await
     .map_err(|e| MainProcessError::BadRequest(e.to_string()))?;

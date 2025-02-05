@@ -43,6 +43,7 @@ pub struct ContentSchema {
     pub metadata: Metadata,
     pub name: String,
     pub address: Address,
+    pub app_id: String,
 }
 
 pub fn parse_content_json(json_str: &str) -> Result<ContentSchema, Box<dyn Error>> {
