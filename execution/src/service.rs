@@ -8,65 +8,147 @@ use alloy::primitives::{Address, FixedBytes};
 use axum::{http::StatusCode, response::IntoResponse, Json};
 use eigenda_adapter::publish_blob;
 use othentic::send_task;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use serde_json::Value;
+use utoipa::ToSchema;
 use verifier::{verify_proof_from_json, VerificationResult};
 
-#[derive(Deserialize)]
+// Serialization: Convert Address to hex string
+fn serialize_address<S>(address: &Address, serializer: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    let hex = format!("{:?}", address);
+    serializer.serialize_str(&hex)
+}
+
+// Deserialization: Parse hex string to Address
+fn deserialize_address<'de, D>(deserializer: D) -> Result<Address, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let s: String = String::deserialize(deserializer)?;
+    Address::from_str(&s).map_err(serde::de::Error::custom)
+}
+
+// Serialization: Convert FixedBytes<32> to hex string
+fn serialize_fixed_bytes<S>(bytes: &FixedBytes<32>, serializer: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    let hex = format!("{:?}", bytes);
+    serializer.serialize_str(&hex)
+}
+
+// Deserialization: Parse hex string to FixedBytes<32>
+fn deserialize_fixed_bytes<'de, D>(deserializer: D) -> Result<FixedBytes<32>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let s: String = String::deserialize(deserializer)?;
+    FixedBytes::<32>::from_str(&s).map_err(serde::de::Error::custom)
+}
+
+/// Request body for proof registration
+#[derive(Deserialize, utoipa::ToSchema)]
 pub struct ProofRequest {
+    /// The transcript proof string
     pub transcript_proof: String,
+    /// The schema string
     pub schema: String,
 }
 
-#[derive(Serialize, Deserialize)]
+/// IP Creator information
+#[derive(Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "camelCase")]
-struct IPCreator {
-    name: String,
-    address: Address,
-    contribution_percent: i32,
+pub struct IPCreator {
+    /// Name of the creator
+    pub name: String,
+    /// Blockchain address of the creator
+    #[serde(
+        serialize_with = "serialize_address",
+        deserialize_with = "deserialize_address"
+    )]
+    pub address: Address,
+    /// Contribution percentage
+    pub contribution_percent: i32,
 }
 
-#[derive(Serialize, Deserialize)]
+/// IP Media information
+#[derive(Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "camelCase")]
-struct IPMedia {
-    name: String,
-    url: String,
-    mimetype: String,
+pub struct IPMedia {
+    /// Name of the media
+    pub name: String,
+    /// URL of the media
+    pub url: String,
+    /// MIME type of the media
+    pub mimetype: String,
 }
 
-#[derive(Serialize, Deserialize)]
+/// IP Attribute information
+#[derive(Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "camelCase")]
-struct IPAttribute {
-    key: String,
-    value: Value,
+pub struct IPAttribute {
+    /// Attribute key
+    pub key: String,
+    /// Attribute value
+    pub value: Value,
 }
 
-#[derive(Serialize, Deserialize)]
+/// IP Metadata
+#[derive(Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "camelCase")]
-struct IPAMeta {
-    title: String,
-    description: String,
-    ip_type: String,
-    creators: Vec<IPCreator>,
-    media: Vec<IPMedia>,
-    attributes: Vec<IPAttribute>,
-    tags: Vec<String>,
+pub struct IPAMeta {
+    /// Title of the IP
+    pub title: String,
+    /// Description of the IP
+    pub description: String,
+    /// Type of IP
+    pub ip_type: String,
+    /// List of creators
+    pub creators: Vec<IPCreator>,
+    /// List of media files
+    pub media: Vec<IPMedia>,
+    /// List of attributes
+    pub attributes: Vec<IPAttribute>,
+    /// List of tags
+    pub tags: Vec<String>,
 }
 
-#[derive(Serialize, Deserialize)]
-struct NFTMeta {
-    name: String,
-    description: String,
-    image_url: Option<String>,
-    animation_url: Option<String>,
-    audio_url: Option<String>,
-    text_content: Option<String>,
+/// NFT Metadata
+#[derive(Serialize, Deserialize, utoipa::ToSchema)]
+pub struct NFTMeta {
+    /// Name of the NFT
+    pub name: String,
+    /// Description of the NFT
+    pub description: String,
+    /// Optional image URL
+    pub image_url: Option<String>,
+    /// Optional animation URL
+    pub animation_url: Option<String>,
+    /// Optional audio URL
+    pub audio_url: Option<String>,
+    /// Optional text content
+    pub text_content: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+/// Proof of Task response
+#[derive(Debug, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct ProofofTask {
+    /// The transcript proof
     pub transcript_proof: String,
+    /// Transaction hash
+    #[serde(
+        serialize_with = "serialize_fixed_bytes",
+        deserialize_with = "deserialize_fixed_bytes"
+    )]
     pub transaction_hash: FixedBytes<32>,
+    /// IP identifier address
+    #[serde(
+        serialize_with = "serialize_address",
+        deserialize_with = "deserialize_address"
+    )]
     pub ip_id: Address,
 }
 
@@ -160,6 +242,17 @@ async fn create_and_upload_metadata(
     ))
 }
 
+#[utoipa::path(
+    post,
+    path = "/register",
+    tag = "Endpoints",
+    request_body = ProofRequest,
+    responses(
+        (status = 200, description = "Successfully registered IP", body = ProofofTask),
+        (status = 400, description = "Bad request - Invalid proof or schema"),
+        (status = 500, description = "Internal server error")
+    )
+)]
 pub async fn register_ip_from_transcript(
     Json(body): Json<ProofRequest>,
 ) -> Result<impl IntoResponse, MainProcessError> {

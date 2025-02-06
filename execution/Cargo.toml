@@ -34,3 +34,6 @@ thiserror = "2.0.9"
 tokio = { version = "1.37.0", features = ["full"] }
 tlsn-core = { git = "https://github.com/tlsnotary/tlsn.git", tag = "v0.1.0-alpha.5", package = "tlsn-core" }
 alloy = { version = "0.9.0", features = ["full"] }
+utoipa = { version = "4.1", features = ["axum_extras"] }
+utoipa-swagger-ui = { version = "5.0", features = ["axum"] }
+alloy-primitives = "0.8"
