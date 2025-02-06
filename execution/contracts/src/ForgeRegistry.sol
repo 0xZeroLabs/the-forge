@@ -97,7 +97,16 @@ contract ForgeRegistry is Initializable, OwnableUpgradeable, UUPSUpgradeable {
         address receiver,
         IPMetadata memory _ipMetadata,
         string memory appId
-    ) public returns (address ipId, uint256 tokenId, address owner) {
+    )
+        public
+        returns (
+            address ipId,
+            uint256 tokenId,
+            address owner,
+            string memory ipMetadataURI,
+            string memory nftMetadataURI
+        )
+    {
         ISPGNFT spgNft = _createNFTCollection(_ipMetadata.name, receiver);
 
         (ipId, tokenId) = REGISTRATION_WORKFLOWS.mintAndRegisterIp(
@@ -106,6 +115,9 @@ contract ForgeRegistry is Initializable, OwnableUpgradeable, UUPSUpgradeable {
             _generateIPMetadata(_ipMetadata)
         );
         owner = receiver;
+
+        ipMetadataURI = _ipMetadata.ipMetadataURI;
+        nftMetadataURI = _ipMetadata.nftMetadataURI;
 
         emit IPRegistered(
             ipId,
