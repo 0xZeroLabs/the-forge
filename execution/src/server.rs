@@ -36,7 +36,8 @@ use utoipa_swagger_ui::SwaggerUi;
         )
     ),
     tags(
-        (name = "Endpoints", description = "The Forge API endpoints")
+        (name = "General", description = "Get data about this execution node."),
+        (name = "Task", description = "Perform action on this execution node.")
     )
 )]
 struct ApiDoc;
@@ -44,9 +45,9 @@ struct ApiDoc;
 #[utoipa::path(
     get,
     path = "/",
-    tag = "Endpoints",
+    tag = "General",
     responses(
-        (status = 200, description = "Welcome message with current server time", body = String)
+      (status = 200, description = "Welcome message with current server time", body = String, example = json!("Hello, from this Forge! The time on this server is: 2025-02-06T14:13:12.297568201Z"), content_type = "text/plain")
     )
 )]
 async fn root() -> impl IntoResponse {
@@ -62,9 +63,9 @@ async fn root() -> impl IntoResponse {
 #[utoipa::path(
     get,
     path = "/health",
-    tag = "Endpoints",
+    tag = "General",
     responses(
-        (status = 200, description = "Health check endpoint", body = String)
+        (status = 200, description = "Health check endpoint", body = String, example = json!("Ok"), content_type = "text/plain")
     )
 )]
 async fn health_check() -> impl IntoResponse {

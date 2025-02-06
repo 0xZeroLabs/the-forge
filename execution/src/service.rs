@@ -245,7 +245,7 @@ async fn create_and_upload_metadata(
 #[utoipa::path(
     post,
     path = "/register",
-    tag = "Endpoints",
+    tag = "Task",
     request_body = ProofRequest,
     responses(
         (status = 200, description = "Successfully registered IP", body = ProofofTask),
