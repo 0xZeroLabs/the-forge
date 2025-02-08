@@ -1,0 +1,36 @@
+# TODO: Properly set up the network
+version: "3.7"
+x-othentic-cli: &othentic-cli
+  env_file:
+    - .env
+  build:
+    context: .
+    dockerfile: ./dockerfile
+services:
+  attester:
+    <<: *othentic-cli
+    command:
+      [
+        "node",
+        "attester",
+        "/ip4/10.8.0.69/tcp/9876/p2p/${OTHENTIC_BOOTSTRAP_ID}",
+        "--avs-webapi",
+        "http://10.8.0.42",
+        "--l1-chain",
+        "holesky",
+        "--l2-chain",
+        "aeneid",
+      ]
+    environment:
+      - TASK_PERFORMER=0x0000000000000000000000000000000000000000
+    networks:
+      p2p:
+        ipv4_address: 10.8.0.2
+
+networks:
+  p2p:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.8.0.0/16
+          gateway: 10.8.0.1
