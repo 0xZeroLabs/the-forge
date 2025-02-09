@@ -1,12 +1,16 @@
-# TODO: Properly set up the network
 version: "3.7"
 x-othentic-cli: &othentic-cli
   env_file:
     - .env
-  build:
-    context: .
-    dockerfile: ./dockerfile
+  image: ./dockerfile
 services:
+  validation-service:
+    image: ghcr.io/0xzerolabs/the-forge/validation:latest
+    ports:
+      - "2078:2078"
+    networks:
+      p2p:
+        ipv4_address: 10.8.0.42
   attester:
     <<: *othentic-cli
     command:
