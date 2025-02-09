@@ -1,4 +1,4 @@
-use crate::{error::MainProcessError, service::verify_ip_from_proof};
+use crate::service::{verify_ip_from_proof, ErrorResponse};
 
 use axum::{
     http::StatusCode,
@@ -6,7 +6,7 @@ use axum::{
     routing::{get, post},
     Router,
 };
-use eyre::Report;
+use serde_json::json;
 
 async fn health_check() -> impl IntoResponse {
     (StatusCode::OK, "Ok")
@@ -22,7 +22,7 @@ async fn root() -> impl IntoResponse {
     )
 }
 
-pub async fn run_server() -> Result<(), MainProcessError> {
+pub async fn run_server() -> Result<(), ErrorResponse> {
     let router = Router::new()
         .route("/", get(root))
         .route("/health", get(health_check))
@@ -30,7 +30,9 @@ pub async fn run_server() -> Result<(), MainProcessError> {
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:2078")
         .await
-        .map_err(|e| MainProcessError::Unexpected(Report::new(e)))?;
+        .map_err(|e| {
+            ErrorResponse::new(json!({}), &format!("Failed to bind TCP listener: {}", e))
+        })?;
 
     println!(
         "Validation server running at: {:?}.",
@@ -39,7 +41,7 @@ pub async fn run_server() -> Result<(), MainProcessError> {
 
     axum::serve(listener, router)
         .await
-        .map_err(|e| MainProcessError::Unexpected(Report::new(e)))?;
+        .map_err(|e| ErrorResponse::new(json!({}), &format!("Server error: {}", e)))?;
 
     Ok(())
 }
