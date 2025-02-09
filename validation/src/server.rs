@@ -26,7 +26,7 @@ pub async fn run_server() -> Result<(), MainProcessError> {
     let router = Router::new()
         .route("/", get(root))
         .route("/health", get(health_check))
-        .route("/verify", post(verify_ip_from_proof));
+        .route("/task/validate", post(verify_ip_from_proof));
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:2078")
         .await
