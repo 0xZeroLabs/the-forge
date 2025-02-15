@@ -6,4 +6,7 @@ WORKDIR /app
 
 RUN npm i -g @othentic/othentic-cli
 
+EXPOSE 9876
+EXPOSE 8565
+EXPOSE 6060
 CMD ["othentic-cli", "node", "aggregator", "--json-rpc", "--l1-chain", "holesky", "--l2-chain", "holesky-l2", "--internal-tasks", "--metrics", "--delay", "1500"]

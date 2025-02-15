@@ -36,6 +36,7 @@ We're currently focused on achieving the following to get a working version of T
 
 The following is currently on our roadmap but has a few technical overhead.
 
+- [ ] Set up metrics and monitoring
 - [ ] Prover with zkVM (Transcript verifier)
 - [ ] Attestation service ZKP verification
 - [ ] Onchain registry for tracking INGOTs (IPs) ...
