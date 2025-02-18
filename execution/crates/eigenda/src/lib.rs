@@ -10,7 +10,7 @@ use std::time::Duration;
 
 use disperser::disperser_client::DisperserClient;
 use disperser::{
-    BlobStatus, BlobStatusReply, BlobStatusRequest, DisperseBlobRequest, RetrieveBlobRequest,
+    BlobStatus, BlobStatusRequest, DisperseBlobRequest, RetrieveBlobRequest,
 };
 
 /// Publishes a blob to the Disperser.
@@ -98,8 +98,8 @@ pub async fn retrieve_blob(request_id: String) -> Result<String, Box<dyn std::er
     });
 
     let response = client.retrieve_blob(request).await;
-    if response.is_ok() == true {
-        Ok(String::from_utf8(response.unwrap().into_inner().data).unwrap())
+    if let Ok(r) = response {
+        Ok(String::from_utf8(r.into_inner().data).unwrap())
     } else {
         Err("Failed to retrieve blob value".into())
     }

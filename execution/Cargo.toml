@@ -12,7 +12,7 @@ name = "execution"
 path = "src/lib.rs"
 
 [workspace.dependencies]
-tlsn-core = { git = "https://github.com/tlsnotary/tlsn.git", tag = "v0.1.0-alpha.5", package = "tlsn-core" }
+tlsn-core = { git = "https://github.com/tlsnotary/tlsn.git", tag = "v0.1.0-alpha.6", package = "tlsn-core" }
 elliptic-curve = {version = "0.13.5", features = ["pkcs8"]}
 p256 = { version = "0.13", features = ["pem", "ecdsa"] }
 chrono = "0.4"
@@ -32,7 +32,7 @@ serde_json = "1.0"
 chrono = "0.4"
 thiserror = "2.0.9"
 tokio = { version = "1.37.0", features = ["full"] }
-tlsn-core = { git = "https://github.com/tlsnotary/tlsn.git", tag = "v0.1.0-alpha.5", package = "tlsn-core" }
+tlsn-core = { git = "https://github.com/tlsnotary/tlsn.git", tag = "v0.1.0-alpha.6", package = "tlsn-core" }
 alloy = { version = "0.9.0", features = ["full"] }
 utoipa = { version = "4.1", features = ["axum_extras"] }
 utoipa-swagger-ui = { version = "5.0", features = ["axum"] }

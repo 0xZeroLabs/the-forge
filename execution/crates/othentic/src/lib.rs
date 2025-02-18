@@ -7,18 +7,18 @@ use alloy::{
         Signer,
     },
 };
-use alloy_sol_types::{sol, SolValue};
+use alloy_sol_types::SolValue;
 use reqwest::Client;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use serde_json::json;
 use std::error::Error;
 
 #[derive(Debug, Deserialize)]
 struct JsonRpcResponse {
-    jsonrpc: String,
+    //jsonrpc: String,
     result: Option<serde_json::Value>,
     error: Option<JsonRpcError>,
-    id: u64,
+    //id: u64,
 }
 
 #[derive(Debug, Deserialize)]

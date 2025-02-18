@@ -1,6 +1,5 @@
 use alloy::primitives::Address;
 use serde::{Deserialize, Serialize};
-use serde_json;
 use std::error::Error;
 use verifier::VerificationResult;
 
@@ -14,7 +13,7 @@ pub struct Input {
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum PropertyType {
-    URL,
+    Url,
     Json,
     File,
 }
@@ -95,7 +94,7 @@ pub fn get_content_data(
             }
         }
         Err(BadContentSchema(
-            format!("Header '{}' not found in response", header_name).into(),
+            format!("Header '{}' not found in response", header_name),
         ))
     } else {
         // JSON extraction
@@ -120,7 +119,7 @@ pub fn get_content_data(
         }
 
         let json_value: serde_json::Value = serde_json::from_str(&json_body)
-            .map_err(|e| BadContentSchema(format!("Failed to parse JSON body: {}", e).into()))?;
+            .map_err(|e| BadContentSchema(format!("Failed to parse JSON body: {}", e)))?;
         let field_name = array[1];
 
         match json_value.get(field_name) {
@@ -130,14 +129,14 @@ pub fn get_content_data(
                 serde_json::Value::Number(n) => Ok(n.to_string()),
                 serde_json::Value::Null => Ok("null".to_string()),
                 serde_json::Value::Object(o) => serde_json::to_string(o).map_err(|e| {
-                    BadContentSchema(format!("Failed to serialize JSON object: {}", e).into())
+                    BadContentSchema(format!("Failed to serialize JSON object: {}", e))
                 }),
                 serde_json::Value::Array(a) => serde_json::to_string(a).map_err(|e| {
-                    BadContentSchema(format!("Failed to serialize JSON array: {}", e).into())
+                    BadContentSchema(format!("Failed to serialize JSON array: {}", e))
                 }),
             },
             None => Err(BadContentSchema(
-                format!("Field '{}' not found in JSON response", field_name).into(),
+                format!("Field '{}' not found in JSON response", field_name),
             )),
         }
     }
@@ -149,7 +148,6 @@ mod tests {
     use tlsn_core::ServerName;
 
     use super::*;
-    use std::str::FromStr;
 
     #[test]
     fn test_get_content_data() {
@@ -190,7 +188,7 @@ connection: close
 {"protected":false,"screen_name":"g_p_vlayer","always_use_https":true,"use_cookie_personalization":false,"sleep_time":{"enabled":false,"end_time":null,"start_time":null},"geo_enabled":false,"language":"en","discoverable_by_email":false,"discoverable_by_mobile_phone":false,"display_sensitive_media":false,"personalized_trends":true,"allow_media_tagging":"all","allow_contributor_request":"none","allow_ads_personalization":false,"allow_logged_out_device_personalization":false,"allow_location_history_personalization":false,"allow_sharing_data_for_third_party_personalization":false,"allow_dms_from":"following","always_allow_dms_from_subscribers":null,"allow_dm_groups_from":"following","translator_type":"none","country_code":"pl","address_book_live_sync_enabled":false,"universal_quality_filtering_enabled":"enabled","dm_receipt_setting":"all_enabled","allow_authenticated_periscope_requests":true,"protect_password_reset":false,"require_password_login":false,"requires_login_verification":false,"dm_quality_filter":"enabled","autoplay_disabled":false,"settings_metadata":{}}""#,
             ),
             server_name: ServerName::Dns("api.x.com".to_string()),
-            time: DateTime::to_utc(&Utc.ymd(2024, 9, 19).and_hms(12, 23, 10)),
+            time: DateTime::to_utc(&Utc.with_ymd_and_hms(2024, 9, 19, 12, 23, 10).unwrap()),
         };
 
         // Test HTTP header extraction
