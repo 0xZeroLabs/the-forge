@@ -239,7 +239,8 @@ connection: close
                     "type": "url"
                 },
                 "owner": "test_owner"
-            }
+            },
+            "app_id": "ap3sd1234567890"
         }"#;
 
         let result = parse_content_json(valid_json);
