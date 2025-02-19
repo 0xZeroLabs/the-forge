@@ -24,8 +24,10 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: stable
+          toolchain: nightly
           override: true
+          submodules: recursive
+          fetch-depth: 0
 
       - name: Cache dependencies
         uses: actions/cache@v3
