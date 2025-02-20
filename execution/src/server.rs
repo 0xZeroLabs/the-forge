@@ -13,7 +13,7 @@ use axum::{
     Router,
 };
 use eyre::Report;
-use utoipa::{OpenApi, ToSchema};
+use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
 // Define API documentation

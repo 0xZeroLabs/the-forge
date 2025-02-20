@@ -7,18 +7,18 @@ use alloy::{
         Signer,
     },
 };
-use alloy_sol_types::{sol, SolValue};
+use alloy_sol_types::SolValue;
 use reqwest::Client;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use serde_json::json;
-use std::error::Error;
+use std::{error::Error, sync::OnceLock};
 
 #[derive(Debug, Deserialize)]
 struct JsonRpcResponse {
-    jsonrpc: String,
+    //jsonrpc: String,
     result: Option<serde_json::Value>,
     error: Option<JsonRpcError>,
-    id: u64,
+    //id: u64,
 }
 
 #[derive(Debug, Deserialize)]
@@ -43,13 +43,12 @@ impl Config {
 }
 
 // Global Config instance
-static mut CONFIG: Option<Config> = None;
+static CONFIG: OnceLock<Config> = OnceLock::new();
 
 // Set up global Config (can be called once at initialization)
 pub fn init_config(private_key: String, eth_rpc_url: String) {
-    unsafe {
-        CONFIG = Some(Config::new(private_key, eth_rpc_url));
-    }
+    let state = Config::new(private_key, eth_rpc_url);
+    let _ = CONFIG.set(state);
 }
 
 pub async fn send_task(
@@ -57,7 +56,7 @@ pub async fn send_task(
     task_definition_id: i32,
 ) -> Result<(), Box<dyn Error>> {
     // Access global Config
-    let config = unsafe { CONFIG.as_ref().expect("Config is not initialized") };
+    let config = CONFIG.get().expect("Config is not initialized");
     let data = "hello";
     let result = Bytes::from(data.as_bytes().to_vec());
 
