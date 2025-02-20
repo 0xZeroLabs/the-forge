@@ -9,9 +9,7 @@ mod common {
 use std::time::Duration;
 
 use disperser::disperser_client::DisperserClient;
-use disperser::{
-    BlobStatus, BlobStatusRequest, DisperseBlobRequest, RetrieveBlobRequest,
-};
+use disperser::{BlobStatus, BlobStatusRequest, DisperseBlobRequest, RetrieveBlobRequest};
 
 /// Publishes a blob to the Disperser.
 /// Returns the request ID after verifying blob status
