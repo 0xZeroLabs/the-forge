@@ -13,7 +13,7 @@ use axum::{
     Router,
 };
 use eyre::Report;
-use utoipa::{OpenApi, ToSchema};
+use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
 // Define API documentation
@@ -62,7 +62,7 @@ async fn root() -> impl IntoResponse {
 
 #[utoipa::path(
     get,
-    path = "/health",
+    path = "/healthcheck",
     tag = "General",
     responses(
         (status = 200, description = "Health check endpoint", body = String, example = json!("Ok"), content_type = "text/plain")
@@ -75,7 +75,7 @@ async fn health_check() -> impl IntoResponse {
 pub async fn run_server() -> Result<(), MainProcessError> {
     let router = Router::new()
         .route("/", get(root))
-        .route("/health", get(health_check))
+        .route("/healthcheck", get(health_check))
         .route("/register", post(register_ip_from_transcript))
         // Add Swagger UI routes
         .merge(SwaggerUi::new("/swagger-ui").url("/api-docs/openapi.json", ApiDoc::openapi()));

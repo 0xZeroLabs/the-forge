@@ -6,7 +6,6 @@ use alloy::{
     sol,
     sol_types::SolEvent,
 };
-use dotenvy::dotenv;
 use eyre::Result;
 use std::str::FromStr;
 use ForgeRegistry::{IPMetadata, IPRegistered};
@@ -32,11 +31,6 @@ pub async fn register_ip(
     nft_metadata: String,
     app_id: String,
 ) -> Result<IPData> {
-    let _ = dotenv().map_err(|e| {
-        println!("Failed to read .env file: {}", e);
-        e
-    });
-
     let private_key = std::env::var("PRIVATE_KEY").map_err(|e| {
         println!("Failed to get PRIVATE_KEY: {}", e);
         e
@@ -149,10 +143,7 @@ pub async fn get_transaction_data(hash: FixedBytes<32>) -> Result<IPRegistered> 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use alloy::primitives::address;
     use alloy::providers::Provider;
-    use mockall::mock;
-    use mockall::predicate::*;
 
     #[tokio::test]
     async fn test_register_ip() {

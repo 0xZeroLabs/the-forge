@@ -1,0 +1,28 @@
+name: CI/Aggregator Docker Image to GHCR
+
+on:
+  release:
+    types:
+      - released
+      - prereleased
+
+jobs:
+  build_and_publish:
+    runs-on: blacksmith-4vcpu-ubuntu-2204
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: build and push the image
+        working-directory: ./syncer
+        run: |
+          docker login --username hey-ewan --password ${{ secrets.GITHUB_TOKEN }} ghcr.io
+          VERSION=${{ github.event.release.tag_name }}
+          docker build . --tag ghcr.io/0xzerolabs/the-forge/aggregator:latest --tag ghcr.io/0xzerolabs/the-forge/aggregator:${VERSION}
+          docker push ghcr.io/0xzerolabs/the-forge/aggregator:latest
+          docker push ghcr.io/0xzerolabs/the-forge/aggregator:${VERSION}
+    permissions:
+      contents: read
+      packages: write

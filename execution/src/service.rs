@@ -7,10 +7,9 @@ use crate::utils::{get_content_data, parse_content_json, ContentSchema, Input, P
 use alloy::primitives::{Address, FixedBytes};
 use axum::{http::StatusCode, response::IntoResponse, Json};
 use eigenda_adapter::publish_blob;
-use othentic::send_task;
+use othentic::{init_config, send_task};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use serde_json::Value;
-use utoipa::ToSchema;
 use verifier::{verify_proof_from_json, VerificationResult};
 
 // Serialization: Convert Address to hex string
@@ -180,13 +179,13 @@ async fn upload_file_to_ipfs(
             .unwrap()
             .ipfs_hash
         }
-        PropertyType::URL => get_content_data(transcript, &content.metadata.property.key)
+        PropertyType::Url => get_content_data(transcript, &content.metadata.property.key)
             .map_err(|e| MainProcessError::BadFileUse(e.to_string()))?,
     };
 
     match content.metadata.property.property_type {
         PropertyType::File | PropertyType::Json => Ok(format!("https://ipfs.io/ipfs/{}", file_up)),
-        PropertyType::URL => Ok(file_up),
+        PropertyType::Url => Ok(file_up),
     }
 }
 
@@ -209,7 +208,7 @@ async fn create_and_upload_metadata(
         }],
         ip_type: content.metadata.property.tags[0].clone(),
         creators: vec![IPCreator {
-            address: content.address.clone(),
+            address: content.address,
             contribution_percent: 100,
             name: get_content_data(transcript, &content.metadata.owner).unwrap(),
         }],
@@ -295,6 +294,12 @@ pub async fn register_ip_from_transcript(
     let req_id = publish_blob(format!("00{}", serde_json::to_string(&proof).unwrap()))
         .await
         .unwrap();
+
+    let private_key =
+        std::env::var("PRIVATE_KEY").expect("PRIVATE_KEY is not set in environment variables");
+    let rpc_url = std::env::var("OTHENTIC_CLIENT_RPC_ADDRESS")
+        .expect("ETH_RPC_URL is not set in environment variables");
+    init_config(private_key, rpc_url);
     send_task(req_id, 0).await.unwrap();
 
     Ok((StatusCode::OK, serde_json::to_string(&proof).unwrap()))
