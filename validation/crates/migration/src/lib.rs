@@ -1,6 +1,5 @@
 mod sindri;
 
-use dotenvy::dotenv;
 use serde_json::Value;
 use sindri::{headers_json, prove_guest_code};
 
@@ -12,7 +11,7 @@ pub struct ZKProofVerificationResult {
 // Function to generate the proof
 pub async fn generate_zk_proof(input: &str) -> Result<Value, String> {
     // Obtain the user's API key from the .env file.
-    dotenv().map_err(|e| format!("Failed to read .env file: {}", e))?;
+    dotenv::dotenv().map_err(|e| format!("Failed to read .env file: {}", e))?;
     let api_key: String = std::env::var("SINDRI_API_KEY")
         .map_err(|e| format!("Failed to get SINDRI_API_KEY: {}", e))?;
 
