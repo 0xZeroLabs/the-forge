@@ -49,8 +49,8 @@ contract ForgeRegistry is
     }
 
     // Events
-    event PaymentReceived(address indexed sender, uint256 amount);
-    event FundsWithdrawn(address indexed recipient, uint256 amount);
+    event PaymentReceived(address indexed sender, uint256 indexed amount);
+    event FundsWithdrawn(address indexed recipient, uint256 indexed amount);
     event BalanceLocked(address indexed user);
     event BalanceUnlocked(address indexed user, uint256 unlockBlockTime);
     event IPRegistered(
