@@ -14,7 +14,6 @@ import {PILicenseTemplate} from "@storyprotocol/core/modules/licensing/PILicense
 import {ILicensingModule} from "@storyprotocol/core/interfaces/modules/licensing/ILicensingModule.sol";
 import {PILTerms} from "@storyprotocol/core/interfaces/modules/licensing/IPILicenseTemplate.sol";
 import {RoyaltyPolicyLAP} from "@storyprotocol/core/modules/royalty/policies/LAP/RoyaltyPolicyLAP.sol";
-import {RoyaltyPolicyLAP} from "@storyprotocol/core/modules/royalty/policies/LAP/RoyaltyPolicyLAP.sol";
 import {ForgeStorage} from "./ForgeStorage.sol";
 
 contract ForgeRegistry is
@@ -122,7 +121,6 @@ contract ForgeRegistry is
         __Ownable_init(owner);
         __UUPSUpgradeable_init();
         __ReentrancyGuard_init();
-        _transferOwnership(owner);
 
         batcherWallet = _batcherWallet;
 
@@ -228,7 +226,12 @@ contract ForgeRegistry is
         );
 
         uint256 gasUsed = startGas - gasleft();
-        uint256 refundAmount = gasUsed * tx.gasprice;
+        uint256 refundAmount = (gasUsed * tx.gasprice * 110) / 100;
+
+        require(
+            address(this).balance >= refundAmount,
+            "Insufficient contract balance"
+        );
 
         if (userData[submitter].balance < refundAmount) {
             revert SubmissionInsufficientBalance(
@@ -293,7 +296,6 @@ contract ForgeRegistry is
 
         senderData.balance -= amount;
         senderData.unlockBlockTime = 0;
-        emit BalanceLocked(msg.sender);
         payable(msg.sender).transfer(amount);
         emit FundsWithdrawn(msg.sender, amount);
     }
