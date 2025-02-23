@@ -42,6 +42,7 @@ contract ForgeRegistry is
         string nftMetadata;
     }
 
+    // todo: make customisable terms
     struct Terms {
         bool transferable;
         bool commercial;
