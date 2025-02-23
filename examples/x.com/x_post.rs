@@ -16,6 +16,27 @@ const USER_AGENT: &str = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KH
 const NOTARY_HOST: &str = "127.0.0.1:7047";
 
 #[tokio::main]
+/// Asynchronously initializes connections and sends a notarized HTTP request to retrieve a Twitter post.
+///
+/// This function sets up logging and loads the required environment variables for authentication.
+/// It then requests notarization from a notary service, configures a Prover for TLS negotiation,
+/// establishes a TCP and TLS connection, and initiates an HTTP/1 handshake. Finally, it constructs an
+/// HTTP request with the proper headers to fetch a JSON representation of a Twitter post (based on
+/// the POST_ID environment variable), defers decryption, and asserts that the response status is OK.
+///
+/// # Examples
+///
+/// ```no_run
+/// // Before running, ensure that POST_ID, AUTH_TOKEN, ACCESS_TOKEN, and CSRF_TOKEN
+/// // environment variables are properly set.
+/// #[tokio::main]
+/// async fn run() {
+///     // Call the asynchronous main function to execute the notarization and HTTP request process.
+///     your_crate::x_post::main().await;
+/// }
+///
+/// run();
+/// ```
 async fn main() {
     tracing_subscriber::fmt::init();
 
