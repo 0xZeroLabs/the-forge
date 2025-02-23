@@ -22,7 +22,7 @@
 
 # The Forge ⚒
 
-The Forge is an AVS built on [EigenLayer](https://eigenlayer.xyz) through the [Othentic](https://othentic.xyz) stack, designed to verifiably register web2 data as IP on Story Protocol unleashing access to infinite IP.
+The Forge is an AVS built on [EigenLayer](https://eigenlayer.xyz) through the [Othentic](https://othentic.xyz) stack, designed to verifiably register web2 data as IP on Story Protocol unleashing access to siloed IP.
 
 # 🎯 Grand Plan
 
@@ -51,11 +51,12 @@ In order to become an operator, check out our [operators' guide](https://forge.0
 - Logic: TLSN, Rust, SP1, Sindri
 - Data: EigenDA, Irys
 
-**This project is made possible with the tech and engineering efforts of the following organisations:**
+<strong style="display: block;" align="center">This project is made possible thanks to the tech and engineering efforts of the following organisations:</strong>
 
-<p align="left">
+<p align="center">
     <a href="https://eigenlayer.xyz" target="_blank"> <img src="assets/eigen.png" width="40", height="40"/></a>
     <a href="https://othentic.xyz" target="_blank"> <img src="assets/othentic.png" width="40", height="40"/></a>
     <a href="https://story.foundation" target="_blank"> <img src="assets/story.png" width="40", height="40"/></a>
-    <a href="https://0xzero.org" target="_blank"> <img src="https://avatars.githubusercontent.com/u/164944691?s=200&v=4" width="40", height="40"/></a>
+    <a href="https://0xzero.org" target="_blank"> <img src="assets/logo-icon.png" width="40", height="40"/></a>
+    <a href="https://tlsnotary.org" target="_blank" style="display: block;"> <img src="assets/tlsn-banner.png" width="fit-content", height="40"/></a>
 </p>
