@@ -9,17 +9,17 @@ importers:
   .:
     dependencies:
       '@openzeppelin/contracts':
-        specifier: ^5.1.0
-        version: 5.1.0
+        specifier: ^5.2.0
+        version: 5.2.0
       '@openzeppelin/contracts-upgradeable':
-        specifier: ^5.1.0
-        version: 5.1.0(@openzeppelin/contracts@5.1.0)
+        specifier: ^5.2.0
+        version: 5.2.0(@openzeppelin/contracts@5.2.0)
       '@story-protocol/protocol-core':
-        specifier: github:storyprotocol/protocol-core-v1#v1.2.3
-        version: https://codeload.github.com/storyprotocol/protocol-core-v1/tar.gz/58f023cb4a5ee81617bc8a02a3d2087e125e5a36
+        specifier: github:storyprotocol/protocol-core-v1#v1.3.1
+        version: https://codeload.github.com/storyprotocol/protocol-core-v1/tar.gz/a0cddb1d712566a550fcaca2f8df1f4f67f095ad
       '@story-protocol/protocol-periphery':
-        specifier: github:storyprotocol/protocol-periphery-v1#v1.2.4
-        version: https://codeload.github.com/storyprotocol/protocol-periphery-v1/tar.gz/d0081ee9462fe39bffaa3768cdf92fc07df6497b
+        specifier: github:storyprotocol/protocol-periphery-v1#v1.3.1
+        version: https://codeload.github.com/storyprotocol/protocol-periphery-v1/tar.gz/7e84f1b9432773628309b4ca3ff840e17fe422b3
       erc6551:
         specifier: ^0.3.1
         version: 0.3.1
@@ -33,44 +33,21 @@ importers:
 
 packages:
 
-  '@openzeppelin/contracts-upgradeable@4.9.6':
-    resolution: {integrity: sha512-m4iHazOsOCv1DgM7eD7GupTJ+NFVujRZt1wzddDPSVGpWdKq1SKkla5htKG7+IS4d2XOCtzkUNwRZ7Vq5aEUMA==}
-
-  '@openzeppelin/contracts-upgradeable@5.0.1':
-    resolution: {integrity: sha512-MvaLoPnVcoZr/qqZP+4cl9piuR4gg0iIGgxVSZ/AL1iId3M6IdEHzz9Naw5Lirl4KKBI6ciTVnX07yL4dOMIJg==}
+  '@openzeppelin/contracts-upgradeable@5.2.0':
+    resolution: {integrity: sha512-mZIu9oa4tQTlGiOJHk6D3LdJlqFqF6oNOSn6S6UVJtzfs9UsY9/dhMEbAVTwElxUtJnjpf6yA062+oBp+eOyPg==}
     peerDependencies:
-      '@openzeppelin/contracts': 5.0.1
+      '@openzeppelin/contracts': 5.2.0
 
-  '@openzeppelin/contracts-upgradeable@5.0.2':
-    resolution: {integrity: sha512-0MmkHSHiW2NRFiT9/r5Lu4eJq5UJ4/tzlOgYXNAIj/ONkQTVnz22pLxDvp4C4uZ9he7ZFvGn3Driptn1/iU7tQ==}
-    peerDependencies:
-      '@openzeppelin/contracts': 5.0.2
+  '@openzeppelin/contracts@5.2.0':
+    resolution: {integrity: sha512-bxjNie5z89W1Ea0NZLZluFh8PrFNn9DH8DQlujEok2yjsOlraUPKID5p1Wk3qdNbf6XkQ1Os2RvfiHrrXLHWKA==}
 
-  '@openzeppelin/contracts-upgradeable@5.1.0':
-    resolution: {integrity: sha512-AIElwP5Ck+cslNE+Hkemf5SxjJoF4wBvvjxc27Rp+9jaPs/CLIaUBMYe1FNzhdiN0cYuwGRmYaRHmmntuiju4Q==}
-    peerDependencies:
-      '@openzeppelin/contracts': 5.1.0
-
-  '@openzeppelin/contracts@5.0.1':
-    resolution: {integrity: sha512-yQJaT5HDp9hYOOp4jTYxMsR02gdFZFXhewX5HW9Jo4fsqSVqqyIO/xTHdWDaKX5a3pv1txmf076Lziz+sO7L1w==}
-
-  '@openzeppelin/contracts@5.0.2':
-    resolution: {integrity: sha512-ytPc6eLGcHHnapAZ9S+5qsdomhjo6QBHTDRRBFfTxXIpsicMhVPouPgmUPebZZZGX7vt9USA+Z+0M0dSVtSUEA==}
-
-  '@openzeppelin/contracts@5.1.0':
-    resolution: {integrity: sha512-p1ULhl7BXzjjbha5aqst+QMLY+4/LCWADXOCsmLHRM77AqiPjnd9vvUN9sosUfhL9JGKpZ0TjEGxgvnizmWGSA==}
-
-  '@story-protocol/protocol-core@https://codeload.github.com/storyprotocol/protocol-core-v1/tar.gz/58f023cb4a5ee81617bc8a02a3d2087e125e5a36':
-    resolution: {tarball: https://codeload.github.com/storyprotocol/protocol-core-v1/tar.gz/58f023cb4a5ee81617bc8a02a3d2087e125e5a36}
+  '@story-protocol/protocol-core@https://codeload.github.com/storyprotocol/protocol-core-v1/tar.gz/a0cddb1d712566a550fcaca2f8df1f4f67f095ad':
+    resolution: {tarball: https://codeload.github.com/storyprotocol/protocol-core-v1/tar.gz/a0cddb1d712566a550fcaca2f8df1f4f67f095ad}
     version: 1.1.0
 
-  '@story-protocol/protocol-periphery@https://codeload.github.com/storyprotocol/protocol-periphery-v1/tar.gz/d0081ee9462fe39bffaa3768cdf92fc07df6497b':
-    resolution: {tarball: https://codeload.github.com/storyprotocol/protocol-periphery-v1/tar.gz/d0081ee9462fe39bffaa3768cdf92fc07df6497b}
-    version: 1.2.4
-
-  create3-deployer#main@https://codeload.github.com/storyprotocol/create3-deployer/tar.gz/604d69eb093e0ec2e1e751892748b2508359d5ba:
-    resolution: {tarball: https://codeload.github.com/storyprotocol/create3-deployer/tar.gz/604d69eb093e0ec2e1e751892748b2508359d5ba}
-    version: 0.0.0
+  '@story-protocol/protocol-periphery@https://codeload.github.com/storyprotocol/protocol-periphery-v1/tar.gz/7e84f1b9432773628309b4ca3ff840e17fe422b3':
+    resolution: {tarball: https://codeload.github.com/storyprotocol/protocol-periphery-v1/tar.gz/7e84f1b9432773628309b4ca3ff840e17fe422b3}
+    version: 1.3.1
 
   ds-test@https://codeload.github.com/dapphub/ds-test/tar.gz/e282159d5170298eb2455a6c05280ab5a73a4ef0:
     resolution: {tarball: https://codeload.github.com/dapphub/ds-test/tar.gz/e282159d5170298eb2455a6c05280ab5a73a4ef0}
@@ -83,49 +60,31 @@ packages:
     resolution: {tarball: https://codeload.github.com/foundry-rs/forge-std/tar.gz/ae570fec082bfe1c1f45b0acca4a2b4f84d345ce}
     version: 1.7.6
 
-  solady@0.0.192:
-    resolution: {integrity: sha512-96A4dhYkSB/xUyZIuc6l8RMbQ+nqk7GFr0hEci7/64D3G63Ial06puqXA14ZVy/xFe8nzBJbz3Mxssn7SH/1Ag==}
+  solady@0.0.281:
+    resolution: {integrity: sha512-pO/r0cVb6EXwAISE/cgcn1outhvkEKHEnVCSUTlRdIWDnl013CrUtMx8PbkDYfef2TrJB178TOA0jIBDVyjGBg==}
 
 snapshots:
 
-  '@openzeppelin/contracts-upgradeable@4.9.6': {}
-
-  '@openzeppelin/contracts-upgradeable@5.0.1(@openzeppelin/contracts@5.0.1)':
+  '@openzeppelin/contracts-upgradeable@5.2.0(@openzeppelin/contracts@5.2.0)':
     dependencies:
-      '@openzeppelin/contracts': 5.0.1
+      '@openzeppelin/contracts': 5.2.0
 
-  '@openzeppelin/contracts-upgradeable@5.0.2(@openzeppelin/contracts@5.0.2)':
+  '@openzeppelin/contracts@5.2.0': {}
+
+  '@story-protocol/protocol-core@https://codeload.github.com/storyprotocol/protocol-core-v1/tar.gz/a0cddb1d712566a550fcaca2f8df1f4f67f095ad':
     dependencies:
-      '@openzeppelin/contracts': 5.0.2
-
-  '@openzeppelin/contracts-upgradeable@5.1.0(@openzeppelin/contracts@5.1.0)':
-    dependencies:
-      '@openzeppelin/contracts': 5.1.0
-
-  '@openzeppelin/contracts@5.0.1': {}
-
-  '@openzeppelin/contracts@5.0.2': {}
-
-  '@openzeppelin/contracts@5.1.0': {}
-
-  '@story-protocol/protocol-core@https://codeload.github.com/storyprotocol/protocol-core-v1/tar.gz/58f023cb4a5ee81617bc8a02a3d2087e125e5a36':
-    dependencies:
-      '@openzeppelin/contracts': 5.0.2
-      '@openzeppelin/contracts-upgradeable': 5.0.2(@openzeppelin/contracts@5.0.2)
-      '@openzeppelin/contracts-upgradeable-v4': '@openzeppelin/contracts-upgradeable@4.9.6'
+      '@openzeppelin/contracts': 5.2.0
+      '@openzeppelin/contracts-upgradeable': 5.2.0(@openzeppelin/contracts@5.2.0)
       erc6551: 0.3.1
-      solady: 0.0.192
+      solady: 0.0.281
 
-  '@story-protocol/protocol-periphery@https://codeload.github.com/storyprotocol/protocol-periphery-v1/tar.gz/d0081ee9462fe39bffaa3768cdf92fc07df6497b':
+  '@story-protocol/protocol-periphery@https://codeload.github.com/storyprotocol/protocol-periphery-v1/tar.gz/7e84f1b9432773628309b4ca3ff840e17fe422b3':
     dependencies:
-      '@openzeppelin/contracts': 5.0.1
-      '@openzeppelin/contracts-upgradeable': 5.0.1(@openzeppelin/contracts@5.0.1)
-      '@story-protocol/create3-deployer': create3-deployer#main@https://codeload.github.com/storyprotocol/create3-deployer/tar.gz/604d69eb093e0ec2e1e751892748b2508359d5ba
-      '@story-protocol/protocol-core': https://codeload.github.com/storyprotocol/protocol-core-v1/tar.gz/58f023cb4a5ee81617bc8a02a3d2087e125e5a36
+      '@openzeppelin/contracts': 5.2.0
+      '@openzeppelin/contracts-upgradeable': 5.2.0(@openzeppelin/contracts@5.2.0)
+      '@story-protocol/protocol-core': https://codeload.github.com/storyprotocol/protocol-core-v1/tar.gz/a0cddb1d712566a550fcaca2f8df1f4f67f095ad
       erc6551: 0.3.1
-      solady: 0.0.192
-
-  create3-deployer#main@https://codeload.github.com/storyprotocol/create3-deployer/tar.gz/604d69eb093e0ec2e1e751892748b2508359d5ba: {}
+      solady: 0.0.281
 
   ds-test@https://codeload.github.com/dapphub/ds-test/tar.gz/e282159d5170298eb2455a6c05280ab5a73a4ef0: {}
 
@@ -133,4 +92,4 @@ snapshots:
 
   forge-std@https://codeload.github.com/foundry-rs/forge-std/tar.gz/ae570fec082bfe1c1f45b0acca4a2b4f84d345ce: {}
 
-  solady@0.0.192: {}
+  solady@0.0.281: {}
