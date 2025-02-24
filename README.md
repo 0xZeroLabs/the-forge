@@ -58,5 +58,5 @@ In order to become an operator, check out our [operators' guide](https://forge.0
     <a href="https://othentic.xyz" target="_blank"> <img src="assets/othentic.png" width="40", height="40"/></a>
     <a href="https://story.foundation" target="_blank"> <img src="assets/story.png" width="40", height="40"/></a>
     <a href="https://0xzero.org" target="_blank"> <img src="assets/logo-icon.png" width="40", height="40"/></a>
-    <a href="https://tlsnotary.org" target="_blank" style="display: block;"> <img src="assets/tlsn-banner.png" width="fit-content", height="40"/></a>
 </p>
+<a href="https://tlsnotary.org" target="_blank" style="display: block;"> <img src="assets/tlsn-banner.png" width="fit-content", height="40"/></a>
