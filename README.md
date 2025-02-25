@@ -55,10 +55,10 @@ In order to become an operator, check out our [operators' guide](https://forge.0
 <p align="center"><strong>This project is made possible thanks to the tech and engineering efforts of the following organisations:</strong></p>
 
 <p align="center">
-    <a href="https://eigenlayer.xyz" target="_blank"> <img src="assets/eigen.png" width="40" height="40"/></a>
-    <a href="https://othentic.xyz" target="_blank"> <img src="assets/othentic.png" width="40" height="40"/></a>
-    <a href="https://story.foundation" target="_blank"> <img src="assets/story.png" width="40" height="40"/></a>
-    <a href="https://0xzero.org" target="_blank"> <img src="assets/logo-icon.png" width="40" height="40"/></a>
+    <a href="https://eigenlayer.xyz" target="_blank"> <img src="assets/eigen.png" width="40" height="40" alt="EigenLayer" /></a>
+    <a href="https://othentic.xyz" target="_blank"> <img src="assets/othentic.png" width="40" height="40" alt="Othentic" /></a>
+    <a href="https://story.foundation" target="_blank"> <img src="assets/story.png" width="40" height="40" alt="Story Protocol" /></a>
+    <a href="https://0xzero.org" target="_blank"> <img src="assets/logo-icon.png" width="40" height="40" alt="ZERO Labs" /></a>
     <br />
-    <a href="https://tlsnotary.org" target="_blank" style="display: block; text-align: center;"> <img src="assets/tlsn-banner.png" width="fit-content", height="40"/></a>
+    <a href="https://tlsnotary.org" target="_blank" style="display: block; text-align: center;"> <img src="assets/tlsn-banner.png" width="fit-content" height="40" alt="TLSNotary" /></a>
 </p>
