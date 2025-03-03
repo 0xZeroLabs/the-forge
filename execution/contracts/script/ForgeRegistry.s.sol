@@ -18,12 +18,16 @@ contract DeployForgeRegistry is Script {
             ForgeRegistry.initialize.selector,
             vm.envAddress("IP_ASSET_REGISTRY_ADDRESS"),
             vm.envAddress("REGISTRATION_WORKFLOWS_ADDRESS"),
-            deployer
+            vm.envAddress("PILICENSE_TEMPLATE_ADDRESS"),
+            vm.envAddress("ROYALTY_POLICY_LAP_ADDRESS"),
+            vm.envAddress("LICENSING_MODULE_ADDRESS"),
+            deployer,
+            vm.envAddress("BATCHER_ADDRESS")
         );
 
         ERC1967Proxy proxy = new ERC1967Proxy(address(implementation), data);
 
-        ForgeRegistry(address(proxy));
+        ForgeRegistry(payable(address(proxy)));
 
         vm.stopBroadcast();
 
@@ -36,16 +40,27 @@ contract UpgradeForgeRegistry is Script {
     function run() external {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         address proxyAddress = vm.envAddress("PROXY_ADDRESS");
+        address deployer = vm.addr(deployerPrivateKey);
 
         vm.startBroadcast(deployerPrivateKey);
 
         // Deploy new implementation
         ForgeRegistry newImplementation = new ForgeRegistry();
 
-        // Upgrade
+        bytes memory data = abi.encodeWithSelector(
+            ForgeRegistry.reinitialize.selector,
+            vm.envAddress("IP_ASSET_REGISTRY_ADDRESS"),
+            vm.envAddress("REGISTRATION_WORKFLOWS_ADDRESS"),
+            vm.envAddress("PILICENSE_TEMPLATE_ADDRESS"),
+            vm.envAddress("ROYALTY_POLICY_LAP_ADDRESS"),
+            vm.envAddress("LICENSING_MODULE_ADDRESS"),
+            deployer,
+            vm.envAddress("BATCHER_ADDRESS")
+        );
+        // Upgrade and call the reinitializer
         UUPSUpgradeable(proxyAddress).upgradeToAndCall(
             address(newImplementation),
-            "" // No need to call initialize again
+            data
         );
 
         vm.stopBroadcast();
