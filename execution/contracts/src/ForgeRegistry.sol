@@ -135,6 +135,47 @@ contract ForgeRegistry is
         LICENSING_MODULE = ILicensingModule(licensingModuleAddress);
     }
 
+    function reinitialize(
+        address ipAssetRegistryAddress,
+        address registrationWorkflowsAddress,
+        address piLicenseTemplateAddress,
+        address royaltyPolicyLAPAddress,
+        address licensingModuleAddress,
+        address owner,
+        address _batcherWallet
+    ) public reinitializer(2) {
+        // Increment this number for each upgrade
+        if (ipAssetRegistryAddress == address(0)) {
+            revert InvalidAddress("ipAssetRegistryAddress");
+        }
+        if (registrationWorkflowsAddress == address(0)) {
+            revert InvalidAddress("registrationWorkflowsAddress");
+        }
+        if (piLicenseTemplateAddress == address(0)) {
+            revert InvalidAddress("piLicenseTemplateAddress");
+        }
+        if (royaltyPolicyLAPAddress == address(0)) {
+            revert InvalidAddress("royaltyPolicyLAPAddress");
+        }
+        if (licensingModuleAddress == address(0)) {
+            revert InvalidAddress("licensingModuleAddress");
+        }
+        if (_batcherWallet == address(0)) {
+            revert InvalidAddress("batcherWallet");
+        }
+
+        batcherWallet = _batcherWallet;
+        IP_ASSET_REGISTRY = IPAssetRegistry(ipAssetRegistryAddress);
+        REGISTRATION_WORKFLOWS = RegistrationWorkflows(
+            registrationWorkflowsAddress
+        );
+        PIL_TEMPLATE = PILicenseTemplate(piLicenseTemplateAddress);
+        ROYALTY_POLICY_LAP = royaltyPolicyLAPAddress;
+        LICENSING_MODULE = ILicensingModule(licensingModuleAddress);
+
+        _transferOwnership(owner);
+    }
+
     function _authorizeUpgrade(
         address newImplementation
     ) internal override onlyOwner {}
