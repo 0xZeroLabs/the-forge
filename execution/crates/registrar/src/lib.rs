@@ -30,6 +30,7 @@ pub async fn register_ip(
     nft_metadata_uri: String,
     nft_metadata: String,
     app_id: String,
+    submitter: Address,
 ) -> Result<IPData> {
     let private_key = std::env::var("PRIVATE_KEY").map_err(|e| {
         println!("Failed to get PRIVATE_KEY: {}", e);
@@ -43,9 +44,8 @@ pub async fn register_ip(
         })
         .unwrap()
         .parse()
-        .map_err(|e| {
+        .inspect_err(|e| {
             print!("Failed to parse RPC URL: {}", e);
-            e
         })?;
 
     let signer: PrivateKeySigner = private_key.parse().map_err(|e| {
@@ -88,7 +88,7 @@ pub async fn register_ip(
     };
 
     let tx = contract
-        .register(address, imetadata.clone(), app_id.clone())
+        .register(address, imetadata.clone(), app_id.clone(), submitter)
         .from(signer.address())
         .send()
         .await
@@ -119,8 +119,16 @@ pub async fn register_ip(
 }
 
 pub async fn get_transaction_data(hash: FixedBytes<32>) -> Result<IPRegistered> {
-    let rpc_url = "https://rpc.odyssey.storyrpc.io".parse()?;
-
+    let rpc_url = std::env::var("STORY_RPC_URL")
+        .map_err(|e| {
+            println!("Failed to get RPC URL: {}", e);
+            e
+        })
+        .unwrap()
+        .parse()
+        .inspect_err(|e| {
+            print!("Failed to parse RPC URL: {}", e);
+        })?;
     let provider = ProviderBuilder::new().on_http(rpc_url);
 
     let receipt = provider
@@ -150,13 +158,14 @@ mod tests {
         // Set up test environment variables
         std::env::set_var(
             "PRIVATE_KEY",
+            // set to use .env file
             "0x5837da14afbb1229eae18d07700b0e6ec2b6407384a08ef25fde3d55ea846962",
         );
         std::env::set_var(
             "PROXY_ADDRESS",
-            "0x58243BB6654D5BA260f5E833390E5b952447E8A3",
+            "0xF9FD6e4b853DE1182c31d39EC904175bcE945853",
         );
-        std::env::set_var("STORY_RPC_URL", "https://odyssey.storyrpc.io");
+        std::env::set_var("STORY_RPC_URL", "https://aeneid.storyrpc.io");
 
         let address = Address::from_str("0x37ad3634C2fA851847d19256F42ec0eD5ad6e7b4").unwrap();
         println!("address: {:?}", address);
@@ -169,7 +178,7 @@ mod tests {
         let nft_metadata = "{'name':'Test NFT','description':'This is a test NFT','image':'https://picsum.photos/200'}".to_string();
 
         // Add a pre-check to verify the proxy contract
-        let rpc_url = "https://rpc.odyssey.storyrpc.io".parse().unwrap();
+        let rpc_url = "https://aeneid.storyrpc.io".parse().unwrap();
         let provider = ProviderBuilder::new().on_http(rpc_url);
 
         let proxy_address = std::env::var("PROXY_ADDRESS").unwrap();
@@ -188,6 +197,7 @@ mod tests {
             nft_metadata_uri,
             nft_metadata,
             "a1b2c3d4e5f6g7h8i9j0k1l2".to_string(),
+            address,
         )
         .await;
 
