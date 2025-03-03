@@ -4,7 +4,8 @@
     "@openzeppelin/contracts-upgradeable": "^5.2.0",
     "@story-protocol/protocol-core": "github:storyprotocol/protocol-core-v1#v1.3.1",
     "@story-protocol/protocol-periphery": "github:storyprotocol/protocol-periphery-v1#v1.3.1",
-    "erc6551": "^0.3.1"
+    "erc6551": "^0.3.1",
+    "solady": "^0.1.10"
   },
   "devDependencies": {
     "ds-test": "github:dapphub/ds-test",
