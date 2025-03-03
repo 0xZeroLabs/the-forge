@@ -13,7 +13,6 @@ import {WorkflowStructs} from "@storyprotocol/periphery/lib/WorkflowStructs.sol"
 import {PILicenseTemplate} from "@storyprotocol/core/modules/licensing/PILicenseTemplate.sol";
 import {ILicensingModule} from "@storyprotocol/core/interfaces/modules/licensing/ILicensingModule.sol";
 import {PILTerms} from "@storyprotocol/core/interfaces/modules/licensing/IPILicenseTemplate.sol";
-import {RoyaltyPolicyLAP} from "@storyprotocol/core/modules/royalty/policies/LAP/RoyaltyPolicyLAP.sol";
 import {ForgeStorage} from "./ForgeStorage.sol";
 
 contract ForgeRegistry is
@@ -30,7 +29,7 @@ contract ForgeRegistry is
     IPAssetRegistry public IP_ASSET_REGISTRY;
     RegistrationWorkflows public REGISTRATION_WORKFLOWS;
     PILicenseTemplate internal PIL_TEMPLATE;
-    RoyaltyPolicyLAP internal ROYALTY_POLICY_LAP;
+    address internal ROYALTY_POLICY_LAP;
     ILicensingModule internal LICENSING_MODULE;
 
     // Structs
@@ -131,7 +130,7 @@ contract ForgeRegistry is
         );
 
         PIL_TEMPLATE = PILicenseTemplate(piLicenseTemplateAddress);
-        ROYALTY_POLICY_LAP = RoyaltyPolicyLAP(royaltyPolicyLAPAddress);
+        ROYALTY_POLICY_LAP = royaltyPolicyLAPAddress;
         LICENSING_MODULE = ILicensingModule(licensingModuleAddress);
     }
 
@@ -249,7 +248,8 @@ contract ForgeRegistry is
         (ipId, tokenId) = REGISTRATION_WORKFLOWS.mintAndRegisterIp(
             address(spgNft),
             receiver,
-            _generateIPMetadata(_ipMetadata)
+            _generateIPMetadata(_ipMetadata),
+            true
         );
         owner = receiver;
 
@@ -257,8 +257,8 @@ contract ForgeRegistry is
         nftMetadataURI = _ipMetadata.nftMetadataURI;
 
         PILTerms memory pilTerms = PILFlavors.creativeCommonsAttribution({
-            mintingFee: 0,
-            royaltyPolicy: ROYALTY_POLICY_LAP
+            royaltyPolicy: ROYALTY_POLICY_LAP,
+            currencyToken: 0x0000000000000000000000000000000000000000
         });
         uint256 licenseTermsId = PIL_TEMPLATE.registerLicenseTerms(pilTerms);
         LICENSING_MODULE.attachLicenseTerms(
