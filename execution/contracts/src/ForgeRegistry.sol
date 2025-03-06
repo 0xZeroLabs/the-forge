@@ -270,10 +270,12 @@ contract ForgeRegistry is
         uint256 gasUsed = startGas - gasleft();
         uint256 refundAmount = (gasUsed * tx.gasprice * 110) / 100;
 
-        require(
-            address(this).balance >= refundAmount,
-            "Insufficient contract balance"
-        );
+        if (address(this).balance < refundAmount) {
+            revert PayerInsufficientBalance(
+                address(this).balance,
+                refundAmount
+            );
+        }
 
         if (userData[submitter].balance < refundAmount) {
             revert SubmissionInsufficientBalance(
