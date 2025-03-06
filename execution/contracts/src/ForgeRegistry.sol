@@ -64,7 +64,7 @@ contract ForgeRegistry is
 
     // Errors
     error OnlyBatcherAllowed(address caller); // 152bc288
-    error NoSubmitter(); // c43ac290
+    error NoSubmitter(); // c44fc838
     error UserHasNoFundsToUnlock(address user); // b38340cf
     error UserHasNoFundsToLock(address user); // 6cc12bc2
     error PayerInsufficientBalance(uint256 balance, uint256 amount); // 21c3d50f
