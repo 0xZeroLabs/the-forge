@@ -79,6 +79,15 @@ pub async fn register_ip(
     // Initialize contract with proxy address
     let contract = ForgeRegistry::new(Address::from_str(&proxy_address)?, provider.clone());
 
+    let is_batcher = contract.batcherWallet().call().await?;
+    println!(
+        "Is signer the batcher? {}",
+        is_batcher._0 == signer.address()
+    );
+
+    let submitter_balance = contract.user_balances(submitter).call().await?;
+    println!("Submitter balance: {}", submitter_balance._0);
+
     let imetadata = IPMetadata {
         name,
         ipMetadataURI: ip_metatdata_uri,
@@ -90,6 +99,8 @@ pub async fn register_ip(
     let tx = contract
         .register(address, imetadata.clone(), app_id.clone(), submitter)
         .from(signer.address())
+        .gas(10_000_000u64)
+        .gas_price(provider.get_gas_price().await?)
         .send()
         .await
         .map_err(|e| {
