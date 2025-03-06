@@ -142,7 +142,7 @@ contract ForgeRegistry is
         address licensingModuleAddress,
         address owner,
         address _batcherWallet
-    ) public reinitializer(2) {
+    ) public reinitializer(6) {
         // Increment this number for each upgrade
         if (ipAssetRegistryAddress == address(0)) {
             revert InvalidAddress("ipAssetRegistryAddress");
