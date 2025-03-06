@@ -103,7 +103,8 @@ contract ForgeRegistryTest is Test {
                             "{'name':'Test NFT','description':'This is a test NFT','image':'https://picsum.photos/200'}"
                         )
                     )
-                })
+                }),
+                true
             );
 
         assertEq(ipId, expectedIpId);

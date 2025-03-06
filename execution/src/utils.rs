@@ -43,6 +43,7 @@ pub struct ContentSchema {
     pub name: String,
     pub address: Address,
     pub app_id: String,
+    pub submitter: Address,
 }
 
 pub fn parse_content_json(json_str: &str) -> Result<ContentSchema, Box<dyn Error>> {
@@ -114,7 +115,7 @@ fn extract_header(content: &str, header_name: &str) -> Result<String, MainProces
             if key == normalized_header {
                 let mut values = vec![value.trim().trim_end_matches(',').trim()];
 
-                while let Some(next_line) = lines.next() {
+                for next_line in lines.by_ref() {
                     // check original line before trimming
                     if !next_line.starts_with("                    ") {
                         break;
@@ -304,7 +305,8 @@ connection: close
                 },
                 "owner": "test_owner"
             },
-            "app_id": "ap3sd1234567890"
+            "app_id": "ap3sd1234567890",
+            "submitter": "0x0000000000000000000000000000000000000000"
         }"#;
 
         let result = parse_content_json(valid_json);

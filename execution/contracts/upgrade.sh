@@ -14,6 +14,12 @@ REQUIRED_VARS=(
     "RPC_URL"
     "BLOCKSCOUT_URL"
     "PROXY_ADDRESS"
+    "IP_ASSET_REGISTRY_ADDRESS"
+    "REGISTRATION_WORKFLOWS_ADDRESS"
+    "PILICENSE_TEMPLATE_ADDRESS"
+    "ROYALTY_POLICY_LAP_ADDRESS"
+    "LICENSING_MODULE_ADDRESS"
+    "BATCHER_ADDRESS"
 )
 
 # Check each required variable
@@ -68,6 +74,12 @@ mkdir -p deployments
     echo "Network RPC: $RPC_URL"
     echo "Blockscout URL: $BLOCKSCOUT_URL"
     echo "Proxy Address: $PROXY_ADDRESS"
+    echo "IP Asset Registry Address: $IP_ASSET_REGISTRY_ADDRESS"
+    echo "Registration Workflows Address: $REGISTRATION_WORKFLOWS_ADDRESS"
+    echo "PI License Template Address: $PILICENSE_TEMPLATE_ADDRESS"
+    echo "Royalty Policy LAP Address: $ROYALTY_POLICY_LAP_ADDRESS"
+    echo "Licensing Module Address: $LICENSING_MODULE_ADDRESS"
+    echo "Batcher Address: $BATCHER_ADDRESS"
 } > "$UPGRADE_LOG"
 
 echo "📋 Upgrade information saved to $UPGRADE_LOG"
