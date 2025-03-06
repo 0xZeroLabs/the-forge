@@ -31,6 +31,7 @@ contract ForgeRegistry is
     PILicenseTemplate internal PIL_TEMPLATE;
     address internal ROYALTY_POLICY_LAP;
     ILicensingModule internal LICENSING_MODULE;
+    address internal WIP = 0x1514000000000000000000000000000000000000;
 
     // Structs
     struct IPMetadata {
@@ -256,16 +257,16 @@ contract ForgeRegistry is
         ipMetadataURI = _ipMetadata.ipMetadataURI;
         nftMetadataURI = _ipMetadata.nftMetadataURI;
 
-        PILTerms memory pilTerms = PILFlavors.creativeCommonsAttribution({
-            royaltyPolicy: ROYALTY_POLICY_LAP,
-            currencyToken: 0x0000000000000000000000000000000000000000
-        });
-        uint256 licenseTermsId = PIL_TEMPLATE.registerLicenseTerms(pilTerms);
-        LICENSING_MODULE.attachLicenseTerms(
-            ipId,
-            address(PIL_TEMPLATE),
-            licenseTermsId
-        );
+        // PILTerms memory pilTerms = PILFlavors.creativeCommonsAttribution(
+        //     ROYALTY_POLICY_LAP,
+        //     WIP
+        // );
+        // uint256 licenseTermsId = PIL_TEMPLATE.registerLicenseTerms(pilTerms);
+        // LICENSING_MODULE.attachLicenseTerms(
+        //     ipId,
+        //     address(PIL_TEMPLATE),
+        //     licenseTermsId
+        // );
 
         uint256 gasUsed = startGas - gasleft();
         uint256 refundAmount = (gasUsed * tx.gasprice * 110) / 100;
