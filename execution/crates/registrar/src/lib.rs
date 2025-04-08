@@ -168,11 +168,6 @@ mod tests {
     async fn test_register_ip() {
         // Set up test environment variables
         std::env::set_var(
-            "PRIVATE_KEY",
-            // set to use .env file
-            "0x5837da14afbb1229eae18d07700b0e6ec2b6407384a08ef25fde3d55ea846962",
-        );
-        std::env::set_var(
             "PROXY_ADDRESS",
             "0xF9FD6e4b853DE1182c31d39EC904175bcE945853",
         );

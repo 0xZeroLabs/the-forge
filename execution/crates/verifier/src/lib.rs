@@ -2,84 +2,50 @@ use elliptic_curve::pkcs8::DecodePublicKey;
 use serde::Serialize;
 use std::{str, time::Duration};
 use tlsn_core::{
-    proof::{SessionProof, TlsProof},
-    ServerName,
+    connection::ServerName,
+    presentation::{Presentation, PresentationOutput},
+    signing::VerifyingKey,
+    CryptoProvider,
 };
-
-/// Verifies a TLS proof and returns the verified data
-pub fn verify_proof(proof_path: &str) -> Result<VerificationResult, Box<dyn std::error::Error>> {
-    // Deserialize the proof
-    let proof = std::fs::read_to_string(proof_path)?;
-    let proof: TlsProof = serde_json::from_str(proof.as_str())?;
-
-    let TlsProof {
-        session,
-        substrings,
-    } = proof;
-
-    // Verify the session proof against the Notary's public key
-    session.verify_with_default_cert_verifier(notary_pubkey())?;
-
-    let SessionProof {
-        header,
-        session_info,
-        ..
-    } = session;
-
-    // The time at which the session was recorded
-    let time = chrono::DateTime::UNIX_EPOCH + Duration::from_secs(header.time());
-
-    // Verify the substrings proof against the session header
-    let (mut sent, mut recv) = substrings.verify(&header)?;
-
-    // Replace the bytes which the Prover chose not to disclose with 'X'
-    sent.set_redacted(b'X');
-    recv.set_redacted(b'X');
-
-    Ok(VerificationResult {
-        server_name: session_info.server_name,
-        time,
-        sent_data: String::from_utf8(sent.data().to_vec())?,
-        received_data: String::from_utf8(recv.data().to_vec())?,
-    })
-}
 
 /// Verifies a TLS proof from a JSON string and returns the verified data
 pub fn verify_proof_from_json(
     proof_json: &str,
 ) -> Result<VerificationResult, Box<dyn std::error::Error>> {
     // Deserialize the proof directly from the provided JSON string
-    let proof: TlsProof = serde_json::from_str(proof_json)?;
+    let presentation: Presentation = serde_json::from_str(proof_json)?;
+    let provider = CryptoProvider::default();
 
-    let TlsProof {
-        session,
-        substrings,
-    } = proof;
+    let VerifyingKey {
+        alg: _,
+        data: key_data,
+    } = presentation.verifying_key();
 
-    // Verify the session proof against the Notary's public key
-    session.verify_with_default_cert_verifier(notary_pubkey())?;
+    if hex::encode(key_data) != notary_pubkey().to_string() {
+        return Err("Notary public key doesn't match".into());
+    }
 
-    let SessionProof {
-        header,
-        session_info,
+    // Verify the presentation
+    let PresentationOutput {
+        server_name,
+        connection_info,
+        transcript,
         ..
-    } = session;
+    } = presentation.verify(&provider).unwrap();
 
-    // The time at which the session was recorded
-    let time = chrono::DateTime::UNIX_EPOCH + Duration::from_secs(header.time());
+    // The time at which the connection was started
+    let time = chrono::DateTime::UNIX_EPOCH + Duration::from_secs(connection_info.time);
 
-    // Verify the substrings proof against the session header
-    let (mut sent, mut recv) = substrings.verify(&header)?;
-
-    // Replace the bytes which the Prover chose not to disclose with 'X'
-    sent.set_redacted(b'X');
-    recv.set_redacted(b'X');
+    let server_name = server_name.unwrap();
+    let mut partial_transcript = transcript.unwrap();
+    // Set the unauthenticated bytes so they are distinguishable.
+    partial_transcript.set_unauthed(b'~');
 
     Ok(VerificationResult {
-        server_name: session_info.server_name,
+        server_name,
         time,
-        sent_data: String::from_utf8(sent.data().to_vec())?,
-        received_data: String::from_utf8(recv.data().to_vec())?,
+        sent_data: String::from_utf8_lossy(partial_transcript.sent_unsafe()).to_string(),
+        received_data: String::from_utf8_lossy(partial_transcript.received_unsafe()).to_string(),
     })
 }
 
