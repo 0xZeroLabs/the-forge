@@ -9,7 +9,7 @@ version = "0.1.0"
 edition = "2021"
 
 [workspace.dependencies]
-tlsn-core = { git = "https://github.com/tlsnotary/tlsn.git", tag = "v0.1.0-alpha.5", package = "tlsn-core" }
+tlsn-core = { git = "https://github.com/tlsnotary/tlsn.git", tag = "v0.1.0-alpha.8", package = "tlsn-core" }
 elliptic-curve = {version = "0.13.5", features = ["pkcs8"]}
 p256 = { version = "0.13", features = ["pem", "ecdsa"] }
 chrono = "0.4"
@@ -26,7 +26,7 @@ tokio = { version = "1.37.0", features = ["full"] }
 execution = { git = "https://github.com/0xZeroLabs/the-forge", package = "execution", branch = "main" }
 eigenda = { git = "https://github.com/0xZeroLabs/the-forge", package = "eigenda", branch = "main" }
 verifier = { git = "https://github.com/0xZeroLabs/the-forge", package = "verifier", branch = "main" }
-tlsn-core = { git = "https://github.com/tlsnotary/tlsn.git", tag = "v0.1.0-alpha.5", package = "tlsn-core" }
+tlsn-core = { git = "https://github.com/tlsnotary/tlsn.git", tag = "v0.1.0-alpha.8", package = "tlsn-core" }
 registrar = { git = "https://github.com/0xZeroLabs/the-forge", package = "registrar", branch = "main" }
 alloy-primitives = "0.8"
 reqwest = { version = "0.11", features = ["json"] }
